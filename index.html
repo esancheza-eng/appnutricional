@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Pedidos — Aqua Luan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #e8f0f5;
+    --bg2: #dde8f0;
+    --surface: #ffffff;
+    --surface2: #f0f5f8;
+    --border: rgba(0,80,120,0.12);
+    --border-focus: #0a7c6e;
+    --teal: #0a7c6e;
+    --teal-dark: #085f54;
+    --teal-light: #e6f4f2;
+    --navy: #1a3a5c;
+    --accent-green: #4ec9a0;
+    --text: #1a3a5c;
+    --muted: rgba(26,58,92,0.5);
+    --muted2: rgba(26,58,92,0.3);
+    --success-bg: #e6f4f2;
+    --success-border: #4ec9a0;
+    --success-text: #085f54;
+    --error-bg: #fdecea;
+    --error-border: #e57373;
+    --error-text: #b71c1c;
+    --whatsapp: #25D366;
+    --whatsapp-hover: #1da851;
+    --radius: 12px;
+    --radius-lg: 18px;
+    --shadow: 0 4px 20px rgba(26,58,92,0.1);
+  }
+  html { font-size: 16px; }
+  body {
+    background: linear-gradient(135deg, #dde8f2 0%, #e8f2f8 50%, #d8edf2 100%);
+    min-height: 100vh;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem 4rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { width: 100%; max-width: 640px; animation: fadeUp 0.4s ease both; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow);
+  }
+
+  .logo-wrap { display: flex; align-items: center; gap: 12px; }
+
+  /* SVG LOGO AQUA LUAN */
+  .logo-icon { flex-shrink: 0; }
+
+  .logo-text { display: flex; flex-direction: column; gap: 1px; }
+  .logo-name { font-family: 'DM Sans', sans-serif; font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 700; letter-spacing: 0.02em; color: #fff; line-height: 1; }
+  .logo-name span { color: #4ec9a0; }
+  .logo-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+  .date-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 5px 12px; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; white-space: nowrap; }
+
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(1.25rem, 4vw, 1.75rem); box-shadow: var(--shadow); margin-bottom: 1rem; }
+
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1.5px; background: var(--teal-light); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+  label { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--navy); text-transform: uppercase; }
+
+  input, textarea, select {
+    background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius);
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 4vw, 15px);
+    font-weight: 500; padding: 11px 14px; outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    width: 100%; -webkit-appearance: none; touch-action: manipulation;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted2); font-weight: 400; }
+  input:focus, textarea:focus, select:focus { border-color: var(--teal); background: #fff; box-shadow: 0 0 0 3px rgba(10,124,110,0.1); }
+  input[type="date"] { cursor: pointer; }
+  input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.5; }
+  input[type="number"] { -moz-appearance: textfield; }
+  input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230a7c6e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer;
+  }
+  .divider { border: none; border-top: 1.5px solid var(--teal-light); margin: 1.25rem 0; }
+
+  /* AGREGAR PRODUCTO */
+  .add-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; align-items: flex-end; }
+  .add-row .field { margin-bottom: 0; }
+
+  .btn-add {
+    height: 44px; padding: 0 16px; background: var(--teal); color: #fff;
+    border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+    transition: background 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  }
+  .btn-add:hover { background: var(--teal-dark); }
+  .btn-add:active { transform: scale(0.97); }
+
+  /* LISTA PRODUCTOS */
+  .productos-lista { margin-top: 1rem; border-radius: var(--radius); overflow: hidden; border: 1.5px solid var(--border); }
+  .productos-lista.empty { display: none; }
+
+  .lista-header {
+    display: grid; grid-template-columns: 1fr 60px 80px 80px 32px;
+    gap: 8px; padding: 9px 12px;
+    background: var(--navy);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.85);
+  }
+
+  .lista-item {
+    display: grid; grid-template-columns: 1fr 60px 80px 80px 32px;
+    gap: 8px; padding: 10px 12px;
+    background: var(--surface); border-top: 1px solid var(--border);
+    align-items: center;
+  }
+  .lista-item:nth-child(even) { background: var(--surface2); }
+  .item-nombre { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .item-num { font-size: 13px; font-weight: 500; text-align: center; color: var(--muted); }
+  .item-precio { font-size: 13px; font-weight: 500; text-align: right; color: var(--muted); }
+  .item-subtotal { font-size: 13px; font-weight: 700; text-align: right; color: var(--teal); }
+
+  .btn-remove {
+    width: 28px; height: 28px; border-radius: 50%; border: none;
+    background: #fee2e2; color: #b71c1c; font-size: 16px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s; line-height: 1;
+  }
+  .btn-remove:hover { background: #fca5a5; }
+
+  /* TOTAL */
+  .total-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--navy); border-radius: var(--radius); padding: 16px 18px; margin-top: 1rem;
+  }
+  .total-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .total-value { font-family: 'DM Serif Display', serif; font-size: clamp(22px, 6vw, 32px); color: #4ec9a0; letter-spacing: -0.02em; }
+
+  .empty-msg { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 14px; border: 1.5px dashed var(--border); border-radius: var(--radius); background: var(--surface2); margin-top: 1rem; }
+
+  /* BUTTONS */
+  .btn {
+    width: 100%; padding: 15px; background: var(--teal); color: #fff; border: none;
+    border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 4vw, 16px); font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 52px;
+  }
+  .btn:hover { background: var(--teal-dark); }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
+  .btn-outline:hover { background: var(--surface2); }
+  .btn-whatsapp { background: var(--whatsapp); color: #fff; margin-top: 10px; display: none; }
+  .btn-whatsapp:hover { background: var(--whatsapp-hover); }
+  .btn-whatsapp.visible { display: flex; }
+
+  .status { margin-top: 12px; padding: 12px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 600; display: none; align-items: center; gap: 10px; line-height: 1.4; }
+  .status.success { display: flex; background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); }
+  .status.error { display: flex; background: var(--error-bg); border: 1px solid var(--error-border); color: var(--error-text); }
+
+  .footer { margin-top: 1.5rem; text-align: center; }
+  .footer a { font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; letter-spacing: 0.03em; }
+  .footer a:hover { color: var(--teal); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,30,60,0.7); z-index: 100; align-items: flex-end; justify-content: center; padding: 0; }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .modal { background: var(--surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 1.5rem; width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+  .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1.25rem; }
+  .modal-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.2rem, 5vw, 1.5rem); margin-bottom: 0.3rem; color: var(--navy); }
+  .modal-subtitle { font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 1.25rem; }
+  .modal-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  .modal-table tr { border-bottom: 1px solid var(--border); }
+  .modal-table tr:last-child { border-bottom: none; }
+  .modal-table td { padding: 8px 0; font-size: 14px; }
+  .modal-table td:first-child { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; width: 38%; }
+  .modal-table td:last-child { color: var(--navy); font-weight: 600; }
+  .modal-productos { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; border-radius: var(--radius); overflow: hidden; }
+  .modal-productos th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 10px; text-align: left; }
+  .modal-productos th:last-child { text-align: right; }
+  .modal-productos td { padding: 8px 10px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .modal-productos td:last-child { text-align: right; font-weight: 700; color: var(--teal); }
+  .modal-total-final { display: flex; justify-content: space-between; align-items: center; background: var(--navy); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 1.25rem; }
+  .modal-total-final span:first-child { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .modal-total-final span:last-child { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: #4ec9a0; }
+  .modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+
+  @media (max-width: 480px) {
+    body { padding: 1rem 0.75rem 3rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .add-row { grid-template-columns: 1fr 1fr; }
+    .add-row .btn-add { grid-column: 1 / -1; width: 100%; }
+    .lista-header, .lista-item { grid-template-columns: 1fr 48px 68px 68px 28px; font-size: 12px; }
+    .modal-btns { grid-template-columns: 1fr; }
+  }
+  @media (min-width: 768px) {
+    .modal-overlay { align-items: center; padding: 1rem; }
+    .modal { border-radius: var(--radius-lg); max-height: 85vh; }
+    .modal-handle { display: none; }
+    @keyframes slideUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  }
+
+  /* LOGIN */
+  .login-overlay {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, #dde8f2 0%, #e8f2f8 50%, #d8edf2 100%);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .login-box {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 380px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .login-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; justify-content: center; }
+  .login-title { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); line-height: 1; }
+  .login-title span { color: #4ec9a0; }
+  .login-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 2px; }
+  .login-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .login-field label { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--navy); text-transform: uppercase; }
+  .login-error { display: none; color: #b71c1c; font-size: 13px; font-weight: 600; background: #fdecea; border: 1px solid #e57373; border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; }
+  .login-error.show { display: block; }
+
+
+  .btn-pdf { background: #c0392b; color: #fff; margin-top: 10px; display: none; }
+  .btn-pdf:hover { background: #a93226; }
+  .btn-pdf.visible { display: flex; }
+
+  /* RECIBO PDF */
+  @media print {
+    body > * { display: none !important; }
+    #reciboImprimir { display: block !important; }
+  }
+  #reciboImprimir {
+    display: none;
+    font-family: Arial, sans-serif;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #1a3a5c;
+  }
+  #reciboImprimir .recibo-header { text-align: center; border-bottom: 2px solid #0a7c6e; padding-bottom: 12px; margin-bottom: 14px; }
+  #reciboImprimir .recibo-logo-text { font-size: 22px; font-weight: 700; color: #1a3a5c; }
+  #reciboImprimir .recibo-logo-text span { color: #0a7c6e; }
+  #reciboImprimir .recibo-sub { font-size: 11px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+  #reciboImprimir .recibo-num { font-size: 12px; color: #888; margin-top: 4px; }
+  #reciboImprimir .recibo-section { margin-bottom: 12px; }
+  #reciboImprimir .recibo-section-title { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #0a7c6e; border-bottom: 1px solid #e6f4f2; padding-bottom: 4px; margin-bottom: 8px; }
+  #reciboImprimir .recibo-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+  #reciboImprimir .recibo-row .label { color: #888; }
+  #reciboImprimir .recibo-row .value { font-weight: 600; color: #1a3a5c; }
+  #reciboImprimir table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 8px; }
+  #reciboImprimir table th { background: #1a3a5c; color: #fff; padding: 6px 8px; text-align: left; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
+  #reciboImprimir table th:last-child { text-align: right; }
+  #reciboImprimir table td { padding: 6px 8px; border-bottom: 1px solid #e6f4f2; }
+  #reciboImprimir table td:last-child { text-align: right; font-weight: 700; color: #0a7c6e; }
+  #reciboImprimir .recibo-total { background: #1a3a5c; color: #fff; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  #reciboImprimir .recibo-total .total-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; }
+  #reciboImprimir .recibo-total .total-amount { font-size: 20px; font-weight: 700; color: #4ec9a0; }
+  #reciboImprimir .recibo-footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 16px; border-top: 1px solid #eee; padding-top: 10px; }
+
+
+  /* SUPERVISOR */
+  .btn-supervisor {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #fff; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 100px; padding: 5px 14px; cursor: pointer; white-space: nowrap;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-supervisor:hover { background: rgba(255,255,255,0.25); }
+
+  /* SUPERVISOR LOGIN */
+  .sup-login-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(10,30,60,0.85);
+    z-index: 200; align-items: center; justify-content: center; padding: 1rem;
+    backdrop-filter: blur(4px);
+  }
+  .sup-login-overlay.open { display: flex; }
+  .sup-login-box {
+    background: #fff; border-radius: var(--radius-lg); padding: 2rem;
+    width: 100%; max-width: 340px; box-shadow: var(--shadow);
+    animation: fadeUp 0.3s ease;
+  }
+  .sup-login-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.3rem; }
+  .sup-login-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
+  .sup-login-error { display: none; color: #b71c1c; font-size: 13px; font-weight: 600; background: #fdecea; border: 1px solid #e57373; border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; }
+  .sup-login-error.show { display: block; }
+
+  /* SUPERVISOR PANEL */
+  .sup-panel-overlay {
+    display: none; position: fixed; inset: 0; background: linear-gradient(135deg, #dde8f2 0%, #e8f2f8 50%, #d8edf2 100%);
+    z-index: 150; overflow-y: auto; padding: 2rem 1rem 4rem;
+  }
+  .sup-panel-overlay.open { display: block; }
+  .sup-panel-container { max-width: 640px; margin: 0 auto; }
+  .sup-header {
+    background: var(--navy); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; flex-wrap: wrap; box-shadow: var(--shadow);
+  }
+  .sup-title { font-family: 'DM Sans', sans-serif; font-size: 1.3rem; font-weight: 700; color: #fff; }
+  .sup-title span { color: #4ec9a0; }
+  .sup-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 5px 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; }
+  .btn-cerrar-sup { font-size: 12px; font-weight: 700; color: #fff; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 100px; padding: 5px 14px; cursor: pointer; }
+  .btn-cerrar-sup:hover { background: rgba(255,255,255,0.25); }
+
+
+  /* ADMIN GESTIÓN */
+  .admin-section { margin-bottom: 1rem; }
+  .admin-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .admin-tag {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal);
+    border-radius: 100px; padding: 4px 12px; font-size: 13px; font-weight: 600;
+  }
+  .admin-tag .remove-tag {
+    background: none; border: none; color: var(--teal); cursor: pointer;
+    font-size: 16px; font-weight: 700; line-height: 1; padding: 0;
+  }
+  .add-item-row { display: flex; gap: 8px; margin-top: 10px; }
+  .add-item-row input { flex: 1; }
+  .btn-add-item {
+    padding: 0 16px; height: 44px; background: var(--navy); color: #fff;
+    border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .btn-add-item:hover { background: var(--teal); }
+
+</style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Confirmar pedido</div>
+    <div class="modal-subtitle">Revisa todos los datos antes de enviar a Google Drive</div>
+    <table class="modal-table">
+      <tr><td>Empleado</td><td id="m-empleado">-</td></tr>
+      <tr><td>Cliente</td><td id="m-nombre">-</td></tr>
+      <tr><td>Telefono</td><td id="m-telefono">-</td></tr>
+      <tr><td>Direccion</td><td id="m-direccion">-</td></tr>
+      <tr><td>Fecha</td><td id="m-fecha">-</td></tr>
+      <tr><td>Notas</td><td id="m-notas">-</td></tr>
+    </table>
+    <div class="section-title" style="margin-bottom:0.75rem">Productos</div>
+    <table class="modal-productos">
+      <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
+      <tbody id="m-productos"></tbody>
+    </table>
+    <div class="modal-total-final">
+      <span>Total general</span>
+      <span id="m-total">$0.00</span>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn" id="btnConfirmar" onclick="confirmarEnvio()">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Confirmar y guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="22" fill="#0a4a5e"/>
+        <path d="M22 8C22 8 12 18 12 25C12 30.5 16.5 35 22 35C27.5 35 32 30.5 32 25C32 18 22 8 22 8Z" fill="#4ec9a0"/>
+        <path d="M22 8C22 8 17 20 19 25C20.2 28.2 22 29 22 29C22 29 24 28 24.5 25C25.5 20 22 8 22 8Z" fill="#a8edd8" opacity="0.6"/>
+        <text x="22" y="28" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="10" fill="white" letter-spacing="0.5">L</text>
+      </svg>
+      <div>
+        <div class="login-title">AQUA <span>LUAN</span></div>
+        <div class="login-sub">Sistema de Pedidos</div>
+      </div>
+    </div>
+    <div class="login-field">
+      <label>Usuario</label>
+      <input type="text" id="loginUser" placeholder="Ingresa tu usuario" autocomplete="username" onkeydown="if(event.key==='Enter') doLogin()">
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPass" placeholder="Ingresa tu contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()">
+    </div>
+    <div class="login-error" id="loginError">Usuario o contraseña incorrectos.</div>
+    <button class="btn" onclick="doLogin()" style="margin-top:8px">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 8h7M10 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 3H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Ingresar
+    </button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HEADER CON LOGO -->
+  <div class="header">
+    <div class="logo-wrap">
+      <svg class="logo-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="22" fill="#0a4a5e"/>
+        <path d="M22 8C22 8 12 18 12 25C12 30.5 16.5 35 22 35C27.5 35 32 30.5 32 25C32 18 22 8 22 8Z" fill="#4ec9a0"/>
+        <path d="M22 8C22 8 17 20 19 25C20.2 28.2 22 29 22 29C22 29 24 28 24.5 25C25.5 20 22 8 22 8Z" fill="#a8edd8" opacity="0.6"/>
+        <text x="22" y="28" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="10" fill="white" letter-spacing="0.5">L</text>
+      </svg>
+      <div class="logo-text">
+        <div class="logo-name">AQUA <span>LUAN</span></div>
+        <div class="logo-sub">Registro de Pedidos</div>
+      </div>
+    </div>
+    <div class="date-badge" id="fechaHoy"></div>
+    <button class="btn-supervisor" onclick="abrirSupLogin()">&#9654; Supervisor</button>
+  </div>
+
+  <!-- DATOS CLIENTE -->
+  <div class="card">
+    <div class="section-title">Empleado responsable</div>
+    <div class="field">
+      <label>Nombre del empleado</label>
+      <select id="empleado" required>
+        <option value="">-- Selecciona empleado --</option>
+      </select>
+    </div>
+    <hr class="divider">
+    <div class="section-title">Datos del cliente</div>
+    <div class="field">
+      <label>Nombre completo</label>
+      <input type="text" id="nombre" placeholder="Ej. Maria Garcia Lopez" autocomplete="off" required>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Telefono</label>
+        <input type="tel" id="telefono" placeholder="0991234567" autocomplete="off" inputmode="tel">
+      </div>
+      <div class="field">
+        <label>Fecha</label>
+        <input type="date" id="fecha">
+      </div>
+    </div>
+    <div class="field">
+      <label>Direccion</label>
+      <input type="text" id="direccion" placeholder="Calle, numero, sector" autocomplete="off">
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label>Notas adicionales</label>
+      <textarea id="notas" placeholder="Observaciones, condiciones de pago, entregas..."></textarea>
+    </div>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="card">
+    <div class="section-title">Productos del pedido</div>
+    <div class="add-row">
+      <div class="field">
+        <label>Producto</label>
+        <select id="sel-producto">
+          <option value="">-- Selecciona --</option>
+          <option value="BOTELLON 20LT">BOTELLON 20LT</option>
+          <option value="BOTELLON CON LLAVE">BOTELLON CON LLAVE</option>
+          <option value="PACA 625ML AZUL">PACA 625ML AZUL</option>
+          <option value="PACA 600ML VERDE">PACA 600ML VERDE</option>
+          <option value="PACA 1000ML">PACA 1000ML</option>
+          <option value="PACA 400ML">PACA 400ML</option>
+          <option value="GALONES 4LT">GALONES 4LT</option>
+          <option value="POMA 5LTS">POMA 5LTS</option>
+          <option value="ENVASE CON LLAVE">ENVASE CON LLAVE</option>
+          <option value="ENVASE AZUL ADICIONAL">ENVASE AZUL ADICIONAL</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Cantidad</label>
+        <input type="number" id="sel-cantidad" placeholder="1" min="1" value="1" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label>Precio ($)</label>
+        <input type="number" id="sel-precio" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
+      </div>
+      <button class="btn-add" onclick="agregarProducto()">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Agregar
+      </button>
+    </div>
+
+    <div class="productos-lista empty" id="productosLista">
+      <div class="lista-header">
+        <span>Producto</span>
+        <span style="text-align:center">Cant.</span>
+        <span style="text-align:right">Precio</span>
+        <span style="text-align:right">Subtotal</span>
+        <span></span>
+      </div>
+      <div id="productosItems"></div>
+    </div>
+
+    <div id="emptyMsg" class="empty-msg">
+      Aun no hay productos. Selecciona un producto y haz clic en <strong>Agregar</strong>.
+    </div>
+
+    <div class="total-row">
+      <span class="total-label">Total general</span>
+      <span class="total-value" id="totalGeneral">$0.00</span>
+    </div>
+  </div>
+
+  <!-- GUARDAR -->
+  <div class="card">
+    <button class="btn" id="btnGuardar" onclick="abrirModal()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 10v2a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 12v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 2v7M5.5 6.5 8 9l2.5-2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Guardar registro
+    </button>
+
+    <button class="btn btn-whatsapp" id="btnWhatsapp" onclick="enviarWhatsapp()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar por WhatsApp a Zoila
+    </button>
+
+    <button class="btn btn-pdf" id="btnPdf" onclick="imprimirRecibo()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 9V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="14" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.8"/></svg>
+      Imprimir / Guardar PDF
+    </button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="footer"><a href="https://www.elhyai.com" target="_blank">www.elhyai.com &nbsp;|&nbsp; Aqua Luan</a></div>
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwo_NTtQrGMJ4DqVKq3qQT8nrq8YjP55vcgD0PKBde69qngR2boYU-fvXJPqw6kLdG0rw/exec";
+  const WHATSAPP_NUMBER = "593985886107";
+  let productos = [];
+  let dataPendiente = null;
+  let ultimoRegistro = null;
+
+  (function() {
+    const hoy = new Date();
+    document.getElementById('fechaHoy').textContent = hoy.toLocaleDateString('es-EC', { weekday:'long', day:'numeric', month:'long' });
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth()+1).padStart(2,'0');
+    const dd = String(hoy.getDate()).padStart(2,'0');
+    document.getElementById('fecha').value = yyyy+'-'+mm+'-'+dd;
+  })();
+
+  function calcTotal() { return productos.reduce((s,p) => s + p.subtotal, 0); }
+
+  function renderLista() {
+    const items = document.getElementById('productosItems');
+    const lista = document.getElementById('productosLista');
+    const emptyMsg = document.getElementById('emptyMsg');
+    if (productos.length === 0) {
+      lista.classList.add('empty');
+      emptyMsg.style.display = 'block';
+    } else {
+      lista.classList.remove('empty');
+      emptyMsg.style.display = 'none';
+    }
+    items.innerHTML = productos.map((p, i) => `
+      <div class="lista-item">
+        <span class="item-nombre">${p.nombre}</span>
+        <span class="item-num">${p.cantidad}</span>
+        <span class="item-precio">$${p.precio.toFixed(2)}</span>
+        <span class="item-subtotal">$${p.subtotal.toFixed(2)}</span>
+        <button class="btn-remove" onclick="eliminarProducto(${i})">&times;</button>
+      </div>`).join('');
+    document.getElementById('totalGeneral').textContent = '$' + calcTotal().toFixed(2);
+  }
+
+  function agregarProducto() {
+    const nombre = document.getElementById('sel-producto').value;
+    const cantidad = parseFloat(document.getElementById('sel-cantidad').value) || 1;
+    const precio = parseFloat(document.getElementById('sel-precio').value);
+    if (!nombre) { alert('Selecciona un producto.'); return; }
+    if (!precio || precio <= 0) { alert('Ingresa el precio unitario.'); return; }
+    const existente = productos.findIndex(p => p.nombre === nombre);
+    if (existente >= 0) {
+      productos[existente].cantidad += cantidad;
+      productos[existente].subtotal = productos[existente].cantidad * productos[existente].precio;
+    } else {
+      productos.push({ nombre, cantidad, precio, subtotal: cantidad * precio });
+    }
+    document.getElementById('sel-producto').value = '';
+    document.getElementById('sel-cantidad').value = '1';
+    document.getElementById('sel-precio').value = '';
+    renderLista();
+  }
+
+  function eliminarProducto(i) { productos.splice(i, 1); renderLista(); }
+
+  function setStatus(type, msg) {
+    const el = document.getElementById("status");
+    el.className = "status " + type;
+    el.innerHTML = msg;
+  }
+
+  function abrirModal() {
+    const empleado  = document.getElementById("empleado").value.trim();
+    const nombre    = document.getElementById("nombre").value.trim();
+    const telefono  = document.getElementById("telefono").value.trim();
+    const fecha     = document.getElementById("fecha").value;
+    const direccion = document.getElementById("direccion").value.trim();
+    const notas     = document.getElementById("notas").value.trim();
+    if (!empleado || !nombre) { setStatus("error", "Completa el nombre del empleado y del cliente."); return; }
+    if (productos.length === 0) { setStatus("error", "Agrega al menos un producto al pedido."); return; }
+    const total = calcTotal();
+    dataPendiente = { empleado, nombre, telefono, fecha, direccion, notas, productos, total: total.toFixed(2) };
+    document.getElementById("m-empleado").textContent  = empleado;
+    document.getElementById("m-nombre").textContent    = nombre;
+    document.getElementById("m-telefono").textContent  = telefono || "-";
+    document.getElementById("m-direccion").textContent = direccion || "-";
+    document.getElementById("m-fecha").textContent     = fecha || "-";
+    document.getElementById("m-notas").textContent     = notas || "-";
+    document.getElementById("m-total").textContent     = "$" + total.toFixed(2);
+    document.getElementById("m-productos").innerHTML = productos.map(p => `
+      <tr>
+        <td>${p.nombre}</td>
+        <td style="text-align:center">${p.cantidad}</td>
+        <td style="text-align:right">$${p.precio.toFixed(2)}</td>
+        <td>$${p.subtotal.toFixed(2)}</td>
+      </tr>`).join('');
+    document.getElementById("modalOverlay").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function cerrarModal() {
+    document.getElementById("modalOverlay").classList.remove("open");
+    document.body.style.overflow = "";
+    dataPendiente = null;
+  }
+
+  function enviarWhatsapp() {
+    if (!ultimoRegistro) return;
+    const d = ultimoRegistro;
+    let lineas = d.productos.map(p => `  - ${p.nombre}: ${p.cantidad} x $${p.precio.toFixed(2)} = $${p.subtotal.toFixed(2)}`).join('%0A');
+    const msg = `Estimada Zoila, se envia pedido de cliente:%0A%0A` +
+      `👤 *Cliente:* ${d.nombre}%0A` +
+      `📞 *Telefono:* ${d.telefono || '-'}%0A` +
+      `📍 *Direccion:* ${d.direccion || '-'}%0A` +
+      `📅 *Fecha:* ${d.fecha}%0A` +
+      `👷 *Empleado:* ${d.empleado}%0A%0A` +
+      `📦 *Productos:*%0A${lineas}%0A%0A` +
+      `💰 *TOTAL: $${d.total}*%0A` +
+      `📝 *Notas:* ${d.notas || '-'}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+  }
+
+  async function confirmarEnvio() {
+    if (!dataPendiente) return;
+    const btn = document.getElementById("btnConfirmar");
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Enviando...';
+
+    const fechaObj = dataPendiente.fecha ? new Date(dataPendiente.fecha + 'T00:00:00') : new Date();
+    const dia = fechaObj.getDate();
+    const mes = fechaObj.getMonth() + 1;
+
+    const productosTexto = dataPendiente.productos.map(p =>
+      `${p.nombre} (${p.cantidad} x $${p.precio.toFixed(2)} = $${p.subtotal.toFixed(2)})`).join(' | ');
+
+    const payload = {
+      dia,
+      mes,
+      empleado: dataPendiente.empleado,
+      nombre: dataPendiente.nombre,
+      telefono: dataPendiente.telefono,
+      fecha: dataPendiente.fecha,
+      direccion: dataPendiente.direccion,
+      notas: dataPendiente.notas,
+      productos: productosTexto,
+      total: dataPendiente.total
+    };
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST", mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      ultimoRegistro = { ...dataPendiente };
+      cerrarModal();
+      setStatus("success", "✓ Pedido guardado correctamente en Google Drive!");
+      document.getElementById("btnWhatsapp").classList.add("visible");
+      document.getElementById("btnPdf").classList.add("visible");
+      ["empleado","nombre","telefono","direccion","notas"].forEach(id => document.getElementById(id).value = "");
+      productos = [];
+      renderLista();
+      const hoy = new Date();
+      const yyyy = hoy.getFullYear();
+      const mm = String(hoy.getMonth()+1).padStart(2,'0');
+      const dd = String(hoy.getDate()).padStart(2,'0');
+      document.getElementById('fecha').value = yyyy+'-'+mm+'-'+dd;
+    } catch(err) {
+      cerrarModal();
+      setStatus("error", "Error de conexion. Intenta de nuevo.");
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Confirmar y guardar';
+    dataPendiente = null;
+  }
+
+  document.getElementById("modalOverlay").addEventListener("click", function(e) {
+    if (e.target === this) cerrarModal();
+  });
+
+  renderLista();
+
+  // ADMIN
+  const DEFAULT_EMPLEADOS = ["RUTA1 JEFFERSON","RUTA2 LUIS","RUTA3 VICENTE","RUTA4 WILSON","RUTA5 LISTER"];
+  const DEFAULT_PRODUCTOS = ["BOTELLON 20LT","BOTELLON CON LLAVE","PACA 625ML AZUL","PACA 600ML VERDE","PACA 1000ML","PACA 400ML","GALONES 4LT","POMA 5LTS","ENVASE CON LLAVE","ENVASE AZUL ADICIONAL"];
+  const APP_VERSION = "v3";
+  if (localStorage.getItem('aqua_version') !== APP_VERSION) {
+    localStorage.removeItem('aqua_empleados');
+    localStorage.removeItem('aqua_productos');
+    localStorage.setItem('aqua_version', APP_VERSION);
+  }
+  function getEmpleados(){try{return JSON.parse(localStorage.getItem('aqua_empleados'))||DEFAULT_EMPLEADOS;}catch(e){return DEFAULT_EMPLEADOS;}}
+  function getProductos(){try{return JSON.parse(localStorage.getItem('aqua_productos'))||DEFAULT_PRODUCTOS;}catch(e){return DEFAULT_PRODUCTOS;}}
+  function saveEmpleados(l){localStorage.setItem('aqua_empleados',JSON.stringify(l));}
+  function saveProductos(l){localStorage.setItem('aqua_productos',JSON.stringify(l));}
+  function renderAdminEmpleados(){
+    const lista=getEmpleados();
+    const s=document.getElementById('sup-empleado');
+    if(s){s.innerHTML='<option value="">-- Selecciona empleado --</option>';lista.forEach(e=>{const o=document.createElement('option');o.value=e;o.textContent=e;s.appendChild(o);});}
+    const al=document.getElementById('admin-empleados-list');
+    if(al)al.innerHTML=lista.map((e,i)=>'<span class="admin-tag">'+e+'<button class="remove-tag" onclick="eliminarEmpleado('+i+')">x</button></span>').join('');
+  }
+  function renderAdminProductos(){
+    const lista=getProductos();
+    const sp=document.getElementById('sel-producto');
+    if(sp){sp.innerHTML='<option value="">-- Selecciona --</option>';lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sp.appendChild(o);});}
+    const ssp=document.getElementById('sup-sel-producto');
+    if(ssp){ssp.innerHTML='<option value="">-- Selecciona --</option>';lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;ssp.appendChild(o);});}
+    const al=document.getElementById('admin-productos-list');
+    if(al)al.innerHTML=lista.map((p,i)=>'<span class="admin-tag">'+p+'<button class="remove-tag" onclick="eliminarProductoAdmin('+i+')">x</button></span>').join('');
+  }
+  function agregarEmpleado(){const inp=document.getElementById('nuevo-empleado');const n=inp.value.trim();if(!n){alert('Escribe el nombre.');return;}const l=getEmpleados();if(l.includes(n)){alert('Ya existe.');return;}l.push(n);saveEmpleados(l);renderAdminEmpleados();inp.value='';}
+  function eliminarEmpleado(i){const l=getEmpleados();if(!confirm('Eliminar a '+l[i]+'?'))return;l.splice(i,1);saveEmpleados(l);renderAdminEmpleados();}
+  function agregarProductoAdmin(){const inp=document.getElementById('nuevo-producto');const n=inp.value.trim().toUpperCase();if(!n){alert('Escribe el nombre.');return;}const l=getProductos();if(l.includes(n)){alert('Ya existe.');return;}l.push(n);saveProductos(l);renderAdminProductos();inp.value='';}
+  function eliminarProductoAdmin(i){const l=getProductos();if(!confirm('Eliminar '+l[i]+'?'))return;l.splice(i,1);saveProductos(l);renderAdminProductos();}
+
+  // SUPERVISOR
+  let supProductos=[],supDataPendiente=null,supUltimoRegistro=null;
+  function abrirSupLogin(){document.getElementById('supLoginOverlay').classList.add('open');setTimeout(()=>document.getElementById('supClave').focus(),100);}
+  function cerrarSupLogin(){document.getElementById('supLoginOverlay').classList.remove('open');document.getElementById('supClave').value='';document.getElementById('supLoginError').classList.remove('show');}
+  function doSupLogin(){const c=document.getElementById('supClave').value;if(c==='1234'){cerrarSupLogin();abrirSupPanel();}else{document.getElementById('supLoginError').classList.add('show');document.getElementById('supClave').value='';}}
+  function abrirSupPanel(){
+    document.getElementById('supPanelOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+    const hoy=new Date();
+    document.getElementById('supFechaHoy').textContent=hoy.toLocaleDateString('es-EC',{weekday:'long',day:'numeric',month:'long'});
+    document.getElementById('sup-fecha').value=hoy.getFullYear()+'-'+String(hoy.getMonth()+1).padStart(2,'0')+'-'+String(hoy.getDate()).padStart(2,'0');
+    renderAdminEmpleados();renderAdminProductos();
+  }
+  function cerrarSupPanel(){document.getElementById('supPanelOverlay').classList.remove('open');document.body.style.overflow='';}
+  function guardarYSalir(){
+    renderAdminEmpleados();
+    renderAdminProductos();
+    cerrarSupPanel();
+    // Mostrar confirmacion breve
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a3a5c;color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.2)';
+    toast.textContent = '✓ Cambios guardados correctamente';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+  function supCalcTotal(){return supProductos.reduce((s,p)=>s+p.subtotal,0);}
+  function supRenderLista(){
+    const items=document.getElementById('supProductosItems');
+    const lista=document.getElementById('supProductosLista');
+    const em=document.getElementById('supEmptyMsg');
+    if(supProductos.length===0){lista.classList.add('empty');em.style.display='block';}
+    else{lista.classList.remove('empty');em.style.display='none';}
+    items.innerHTML=supProductos.map((p,i)=>'<div class="lista-item"><span class="item-nombre">'+p.nombre+'</span><span class="item-num">'+p.cantidad+'</span><span class="item-precio">$'+p.precio.toFixed(2)+'</span><span class="item-subtotal">$'+p.subtotal.toFixed(2)+'</span><button class="btn-remove" onclick="supEliminarProducto('+i+')">&times;</button></div>').join('');
+    document.getElementById('supTotalGeneral').textContent='$'+supCalcTotal().toFixed(2);
+  }
+  function supAgregarProducto(){
+    const nombre=document.getElementById('sup-sel-producto').value;
+    const cantidad=parseFloat(document.getElementById('sup-sel-cantidad').value)||1;
+    const precio=parseFloat(document.getElementById('sup-sel-precio').value);
+    if(!nombre){alert('Selecciona un producto.');return;}
+    if(!precio||precio<=0){alert('Ingresa el precio.');return;}
+    const ex=supProductos.findIndex(p=>p.nombre===nombre);
+    if(ex>=0){supProductos[ex].cantidad+=cantidad;supProductos[ex].subtotal=supProductos[ex].cantidad*supProductos[ex].precio;}
+    else{supProductos.push({nombre,cantidad,precio,subtotal:cantidad*precio});}
+    document.getElementById('sup-sel-producto').value='';
+    document.getElementById('sup-sel-cantidad').value='1';
+    document.getElementById('sup-sel-precio').value='';
+    supRenderLista();
+  }
+  function supEliminarProducto(i){supProductos.splice(i,1);supRenderLista();}
+  function supSetStatus(type,msg){const el=document.getElementById('sup-status');el.className='status '+type;el.innerHTML=msg;}
+  function supAbrirModal(){
+    const empleado=document.getElementById('sup-empleado').value;
+    const nombre=document.getElementById('sup-nombre').value.trim();
+    const telefono=document.getElementById('sup-telefono').value.trim();
+    const fecha=document.getElementById('sup-fecha').value;
+    const direccion=document.getElementById('sup-direccion').value.trim();
+    const notas=document.getElementById('sup-notas').value.trim();
+    if(!empleado||!nombre){supSetStatus('error','Completa el empleado y nombre del cliente.');return;}
+    if(supProductos.length===0){supSetStatus('error','Agrega al menos un producto.');return;}
+    const total=supCalcTotal();
+    supDataPendiente={empleado,nombre,telefono,fecha,direccion,notas,productos:supProductos,total:total.toFixed(2)};
+    document.getElementById('sup-m-empleado').textContent=empleado;
+    document.getElementById('sup-m-nombre').textContent=nombre;
+    document.getElementById('sup-m-telefono').textContent=telefono||'-';
+    document.getElementById('sup-m-direccion').textContent=direccion||'-';
+    document.getElementById('sup-m-fecha').textContent=fecha||'-';
+    document.getElementById('sup-m-notas').textContent=notas||'-';
+    document.getElementById('sup-m-total').textContent='$'+total.toFixed(2);
+    document.getElementById('sup-m-productos').innerHTML=supProductos.map(p=>'<tr><td>'+p.nombre+'</td><td style="text-align:center">'+p.cantidad+'</td><td style="text-align:right">$'+p.precio.toFixed(2)+'</td><td>$'+p.subtotal.toFixed(2)+'</td></tr>').join('');
+    document.getElementById('supModalOverlay').classList.add('open');
+  }
+  function supCerrarModal(){document.getElementById('supModalOverlay').classList.remove('open');supDataPendiente=null;}
+  function supEnviarWhatsapp(){
+    if(!supUltimoRegistro)return;
+    const d=supUltimoRegistro;
+    let lineas=d.productos.map(p=>'  - '+p.nombre+': '+p.cantidad+' x $'+p.precio.toFixed(2)+' = $'+p.subtotal.toFixed(2)).join('%0A');
+    const msg='Estimada Zoila, pedido SUPERVISOR:%0A%0A'+encodeURIComponent('👤 Cliente: '+d.nombre+'\n📞 Tel: '+(d.telefono||'-')+'\n📍 Dir: '+(d.direccion||'-')+'\n📅 Fecha: '+d.fecha+'\n👷 Empleado: '+d.empleado);
+    window.open('https://wa.me/'+WHATSAPP_NUMBER+'?text='+msg,'_blank');
+  }
+  async function supConfirmarEnvio(){
+    if(!supDataPendiente)return;
+    const btn=document.getElementById('supBtnConfirmar');
+    btn.disabled=true;btn.innerHTML='<div class="spinner"></div> Enviando...';
+    const fechaObj=supDataPendiente.fecha?new Date(supDataPendiente.fecha+'T00:00:00'):new Date();
+    const dia=fechaObj.getDate(),mes=fechaObj.getMonth()+1;
+    const productosTexto=supDataPendiente.productos.map(p=>p.nombre+' ('+p.cantidad+' x $'+p.precio.toFixed(2)+' = $'+p.subtotal.toFixed(2)+')').join(' | ');
+    const payload={dia,mes,empleado:supDataPendiente.empleado,nombre:supDataPendiente.nombre,telefono:supDataPendiente.telefono,fecha:supDataPendiente.fecha,direccion:supDataPendiente.direccion,notas:supDataPendiente.notas,productos:productosTexto,total:supDataPendiente.total};
+    try{
+      await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      supUltimoRegistro={...supDataPendiente};
+      supCerrarModal();
+      supSetStatus('success','Pedido guardado en Google Drive!');
+      document.getElementById('supBtnWhatsapp').style.display='flex';
+      ['sup-nombre','sup-telefono','sup-direccion','sup-notas'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('sup-empleado').value='';
+      supProductos=[];supRenderLista();
+      const hoy=new Date();
+      document.getElementById('sup-fecha').value=hoy.getFullYear()+'-'+String(hoy.getMonth()+1).padStart(2,'0')+'-'+String(hoy.getDate()).padStart(2,'0');
+    }catch(err){supCerrarModal();supSetStatus('error','Error de conexion.');}
+    btn.disabled=false;btn.innerHTML='Confirmar y guardar';supDataPendiente=null;
+  }
+  document.getElementById('supModalOverlay').addEventListener('click',function(e){if(e.target===this)supCerrarModal();});
+  renderAdminEmpleados();
+  renderAdminProductos();
+  supRenderLista();
+
+  function doLogin() {
+    const user = document.getElementById('loginUser').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    if (user === 'admin' && pass === '1234') {
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('loginError').classList.remove('show');
+    } else {
+      document.getElementById('loginError').classList.add('show');
+      document.getElementById('loginPass').value = '';
+      document.getElementById('loginPass').focus();
+    }
+  }
+
+</script>
+
+<!-- RECIBO PARA IMPRIMIR -->
+<div id="reciboImprimir">
+  <div class="recibo-header">
+    <div class="recibo-logo-text">AQUA <span>LUAN</span></div>
+    <div class="recibo-sub">Registro de Pedidos</div>
+    <div class="recibo-num" id="r-num"></div>
+  </div>
+  <div class="recibo-section">
+    <div class="recibo-section-title">Datos del cliente</div>
+    <div class="recibo-row"><span class="label">Cliente</span><span class="value" id="r-nombre"></span></div>
+    <div class="recibo-row"><span class="label">Telefono</span><span class="value" id="r-telefono"></span></div>
+    <div class="recibo-row"><span class="label">Direccion</span><span class="value" id="r-direccion"></span></div>
+    <div class="recibo-row"><span class="label">Fecha</span><span class="value" id="r-fecha"></span></div>
+    <div class="recibo-row"><span class="label">Empleado</span><span class="value" id="r-empleado"></span></div>
+  </div>
+  <div class="recibo-section">
+    <div class="recibo-section-title">Detalle del pedido</div>
+    <table>
+      <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
+      <tbody id="r-productos"></tbody>
+    </table>
+  </div>
+  <div class="recibo-total">
+    <span class="total-label">Total General</span>
+    <span class="total-amount" id="r-total"></span>
+  </div>
+  <div class="recibo-section" style="margin-top:12px">
+    <div class="recibo-section-title">Notas</div>
+    <div style="font-size:13px;color:#444" id="r-notas"></div>
+  </div>
+  <div class="recibo-footer">
+    www.elhyai.com &nbsp;|&nbsp; Aqua Luan<br>
+    Gracias por su preferencia
+  </div>
+</div>
+
+
+<!-- SUPERVISOR LOGIN -->
+<div class="sup-login-overlay" id="supLoginOverlay">
+  <div class="sup-login-box">
+    <div class="sup-login-title">Panel Supervisor</div>
+    <div class="sup-login-sub">Ingresa la clave para acceder</div>
+    <div class="field">
+      <label>Clave de acceso</label>
+      <input type="password" id="supClave" placeholder="****" onkeydown="if(event.key==='Enter') doSupLogin()">
+    </div>
+    <div class="sup-login-error" id="supLoginError">Clave incorrecta.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+      <button class="btn btn-outline" onclick="cerrarSupLogin()">Cancelar</button>
+      <button class="btn" onclick="doSupLogin()">Ingresar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUPERVISOR PANEL -->
+<div class="sup-panel-overlay" id="supPanelOverlay">
+  <div class="sup-panel-container">
+    <div class="sup-header">
+      <div>
+        <div class="sup-title">AQUA <span>LUAN</span> — Supervisor</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px">Gestion de empleados y productos</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="sup-badge" id="supFechaHoy"></div>
+        <button class="btn-cerrar-sup" onclick="cerrarSupPanel()">✕ Salir</button>
+      </div>
+    </div>
+
+    <!-- CARD EMPLEADOS -->
+    <div class="card">
+      <div class="section-title">Gestionar empleados</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Agrega o elimina empleados. Los cambios se reflejan inmediatamente en el formulario principal.</p>
+      <div class="admin-list" id="admin-empleados-list"></div>
+      <div class="add-item-row" style="margin-top:12px">
+        <input type="text" id="nuevo-empleado" placeholder="Nombre del nuevo empleado" onkeydown="if(event.key==='Enter') agregarEmpleado()">
+        <button class="btn-add-item" onclick="agregarEmpleado()">+ Agregar</button>
+      </div>
+    </div>
+
+    <!-- CARD PRODUCTOS -->
+    <div class="card">
+      <div class="section-title">Gestionar productos</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Agrega o elimina productos. Los cambios se reflejan inmediatamente en el formulario principal.</p>
+      <div class="admin-list" id="admin-productos-list"></div>
+      <div class="add-item-row" style="margin-top:12px">
+        <input type="text" id="nuevo-producto" placeholder="Nombre del nuevo producto" onkeydown="if(event.key==='Enter') agregarProductoAdmin()">
+        <button class="btn-add-item" onclick="agregarProductoAdmin()">+ Agregar</button>
+      </div>
+    </div>
+
+    <!-- BOTON GUARDAR Y SALIR -->
+    <div class="card" style="text-align:center">
+      <button class="btn" onclick="guardarYSalir()" style="background:var(--navy)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 10v2a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 12v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 2v7M5.5 6.5 8 9l2.5-2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Guardar cambios y salir
+      </button>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px">Los cambios ya se guardaron automaticamente. Este boton cierra el panel.</p>
+    </div>
+
+    <div class="footer"><a href="https://www.elhyai.com" target="_blank">www.elhyai.com &nbsp;|&nbsp; Aqua Luan</a></div>
+  </div>
+</div>
+
+<!-- MODAL SUPERVISOR -->
+<div class="modal-overlay" id="supModalOverlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Confirmar pedido</div>
+    <div class="modal-subtitle">Revisa los datos antes de guardar</div>
+    <table class="modal-table">
+      <tr><td>Empleado</td><td id="sup-m-empleado">-</td></tr>
+      <tr><td>Cliente</td><td id="sup-m-nombre">-</td></tr>
+      <tr><td>Telefono</td><td id="sup-m-telefono">-</td></tr>
+      <tr><td>Direccion</td><td id="sup-m-direccion">-</td></tr>
+      <tr><td>Fecha</td><td id="sup-m-fecha">-</td></tr>
+      <tr><td>Notas</td><td id="sup-m-notas">-</td></tr>
+    </table>
+    <div class="section-title" style="margin-bottom:0.75rem">Productos</div>
+    <table class="modal-productos">
+      <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
+      <tbody id="sup-m-productos"></tbody>
+    </table>
+    <div class="modal-total-final">
+      <span>Total general</span>
+      <span id="sup-m-total">$0.00</span>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="supCerrarModal()">Cancelar</button>
+      <button class="btn" id="supBtnConfirmar" onclick="supConfirmarEnvio()">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Confirmar y guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
