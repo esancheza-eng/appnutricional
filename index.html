@@ -3,1041 +3,1542 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registro de Pedidos — Aqua Luan</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>ElhyAI Nutrición · Plan de alimentación personalizado</title>
+
+<!-- Tipografías: Poppins para títulos (carácter clínico-moderno), Inter para texto de lectura -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #e8f0f5;
-    --bg2: #dde8f0;
-    --surface: #ffffff;
-    --surface2: #f0f5f8;
-    --border: rgba(0,80,120,0.12);
-    --border-focus: #0a7c6e;
-    --teal: #0a7c6e;
-    --teal-dark: #085f54;
-    --teal-light: #e6f4f2;
-    --navy: #1a3a5c;
-    --accent-green: #4ec9a0;
-    --text: #1a3a5c;
-    --muted: rgba(26,58,92,0.5);
-    --muted2: rgba(26,58,92,0.3);
-    --success-bg: #e6f4f2;
-    --success-border: #4ec9a0;
-    --success-text: #085f54;
-    --error-bg: #fdecea;
-    --error-border: #e57373;
-    --error-text: #b71c1c;
-    --whatsapp: #25D366;
-    --whatsapp-hover: #1da851;
-    --radius: 12px;
-    --radius-lg: 18px;
-    --shadow: 0 4px 20px rgba(26,58,92,0.1);
-  }
-  html { font-size: 16px; }
-  body {
-    background: linear-gradient(135deg, #dde8f2 0%, #e8f2f8 50%, #d8edf2 100%);
-    min-height: 100vh;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 2rem 1rem 4rem;
-    -webkit-text-size-adjust: 100%;
-  }
-  .container { width: 100%; max-width: 640px; animation: fadeUp 0.4s ease both; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+/* =========================================================
+   MI NUTRICIONISTA IA — ESTILOS
+   Paleta: verde (salud/vitalidad), azul (confianza/clínico), blanco (limpieza)
+   ========================================================= */
 
-  /* HEADER */
-  .header {
-    background: var(--navy);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-    box-shadow: var(--shadow);
-  }
+:root{
+  /* --- Paleta modo claro --- */
+  --verde-primario:#10B981;
+  --verde-oscuro:#059669;
+  --verde-suave:#D1FAE5;
+  --azul-primario:#2563EB;
+  --azul-claro:#38BDF8;
+  --azul-suave:#DBEAFE;
+  --blanco:#FFFFFF;
+  --fondo:#F1F5F9;
+  --fondo-tarjeta:#FFFFFF;
+  --texto:#0F172A;
+  --texto-secundario:#64748B;
+  --borde:#E2E8F0;
+  --sombra: 0 4px 20px rgba(15,23,42,0.06);
+  --sombra-hover: 0 10px 30px rgba(15,23,42,0.10);
+  --rojo-alerta:#EF4444;
+  --amarillo-alerta:#F59E0B;
 
-  .logo-wrap { display: flex; align-items: center; gap: 12px; }
+  --gradiente-primario: linear-gradient(135deg, var(--verde-primario), var(--azul-primario));
+  --fuente-titulos:'Poppins', 'Segoe UI', sans-serif;
+  --fuente-texto:'Inter', 'Segoe UI', sans-serif;
+}
 
-  /* SVG LOGO AQUA LUAN */
-  .logo-icon { flex-shrink: 0; }
+[data-theme="dark"]{
+  --fondo:#0B1220;
+  --fondo-tarjeta:#131C2E;
+  --texto:#E2E8F0;
+  --texto-secundario:#94A3B8;
+  --borde:#1E293B;
+  --verde-suave:#0F2E24;
+  --azul-suave:#0F2340;
+  --sombra: 0 4px 20px rgba(0,0,0,0.35);
+  --sombra-hover: 0 10px 30px rgba(0,0,0,0.5);
+}
 
-  .logo-text { display: flex; flex-direction: column; gap: 1px; }
-  .logo-name { font-family: 'DM Sans', sans-serif; font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 700; letter-spacing: 0.02em; color: #fff; line-height: 1; }
-  .logo-name span { color: #4ec9a0; }
-  .logo-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+*{ box-sizing:border-box; margin:0; padding:0; }
 
-  .date-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 5px 12px; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; white-space: nowrap; }
+html{ scroll-behavior:smooth; }
 
-  /* CARD */
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(1.25rem, 4vw, 1.75rem); box-shadow: var(--shadow); margin-bottom: 1rem; }
+body{
+  font-family:var(--fuente-texto);
+  background:var(--fondo);
+  color:var(--texto);
+  transition:background .35s ease, color .35s ease;
+  line-height:1.5;
+  padding-bottom:2rem;
+}
 
-  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
-  .section-title::after { content: ''; flex: 1; height: 1.5px; background: var(--teal-light); }
+h1,h2,h3,h4{ font-family:var(--fuente-titulos); }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* ============ BOTÓN DE TEMA ============ */
+.btn-tema{
+  position:fixed;
+  top:1.25rem;
+  right:1.25rem;
+  z-index:100;
+  width:48px; height:48px;
+  border-radius:50%;
+  border:1px solid var(--borde);
+  background:var(--fondo-tarjeta);
+  box-shadow:var(--sombra);
+  cursor:pointer;
+  font-size:1.3rem;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.btn-tema:hover{ transform:scale(1.08) rotate(15deg); box-shadow:var(--sombra-hover); }
 
-  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-  .field:last-child { margin-bottom: 0; }
-  label { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--navy); text-transform: uppercase; }
+/* ============ ENCABEZADO ============ */
+.encabezado{
+  background:var(--gradiente-primario);
+  color:var(--blanco);
+  padding:2.5rem 1.5rem 0;
+  overflow:hidden;
+}
+.encabezado-contenido{
+  max-width:1100px;
+  margin:0 auto;
+  padding-bottom:1.5rem;
+}
+.logo-grupo{ display:flex; align-items:center; gap:1rem; }
+.logo-cruz{
+  background:rgba(255,255,255,.18);
+  width:56px; height:56px;
+  border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.encabezado h1{ font-size:1.8rem; font-weight:700; letter-spacing:-.02em; }
+.encabezado h1 span{ font-weight:800; opacity:.85; }
+.subtitulo{ opacity:.9; font-size:.95rem; margin-top:.15rem; }
 
-  input, textarea, select {
-    background: var(--surface2); border: 1.5px solid var(--border); border-radius: var(--radius);
-    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: clamp(14px, 4vw, 15px);
-    font-weight: 500; padding: 11px 14px; outline: none;
-    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-    width: 100%; -webkit-appearance: none; touch-action: manipulation;
-  }
-  input::placeholder, textarea::placeholder { color: var(--muted2); font-weight: 400; }
-  input:focus, textarea:focus, select:focus { border-color: var(--teal); background: #fff; box-shadow: 0 0 0 3px rgba(10,124,110,0.1); }
-  input[type="date"] { cursor: pointer; }
-  input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.5; }
-  input[type="number"] { -moz-appearance: textfield; }
-  input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230a7c6e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; cursor: pointer;
-  }
-  .divider { border: none; border-top: 1.5px solid var(--teal-light); margin: 1.25rem 0; }
+/* Línea de pulso — elemento de identidad visual (electrocardiograma) */
+.linea-pulso{ width:100%; height:40px; opacity:.55; }
+.trazo-pulso{
+  fill:none;
+  stroke:var(--blanco);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:900;
+  stroke-dashoffset:900;
+  animation:dibujarPulso 3.2s ease-in-out infinite;
+}
+@keyframes dibujarPulso{
+  0%{ stroke-dashoffset:900; }
+  55%{ stroke-dashoffset:0; }
+  100%{ stroke-dashoffset:-900; }
+}
 
-  /* AGREGAR PRODUCTO */
-  .add-row { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; align-items: flex-end; }
-  .add-row .field { margin-bottom: 0; }
+/* ============ CONTENEDOR PRINCIPAL ============ */
+.contenedor{
+  max-width:1100px;
+  margin:-1.5rem auto 0;
+  padding:0 1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+}
 
-  .btn-add {
-    height: 44px; padding: 0 16px; background: var(--teal); color: #fff;
-    border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
-    font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
-    display: flex; align-items: center; gap: 6px;
-    transition: background 0.2s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-  }
-  .btn-add:hover { background: var(--teal-dark); }
-  .btn-add:active { transform: scale(0.97); }
+/* ============ TARJETAS ============ */
+.tarjeta{
+  background:var(--fondo-tarjeta);
+  border-radius:20px;
+  border:1px solid var(--borde);
+  box-shadow:var(--sombra);
+  padding:1.75rem;
+  animation:aparecer .5s ease both;
+}
+@keyframes aparecer{
+  from{ opacity:0; transform:translateY(12px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 
-  /* LISTA PRODUCTOS */
-  .productos-lista { margin-top: 1rem; border-radius: var(--radius); overflow: hidden; border: 1.5px solid var(--border); }
-  .productos-lista.empty { display: none; }
+.tarjeta h2{
+  font-size:1.25rem;
+  margin-bottom:.4rem;
+  display:flex; align-items:center; gap:.6rem;
+}
+.numero-seccion{
+  font-size:.7rem;
+  font-weight:700;
+  color:var(--verde-primario);
+  background:var(--verde-suave);
+  padding:.2rem .5rem;
+  border-radius:8px;
+  letter-spacing:.05em;
+}
+.texto-ayuda{ color:var(--texto-secundario); font-size:.9rem; margin-bottom:1.25rem; }
 
-  .lista-header {
-    display: grid; grid-template-columns: 1fr 60px 80px 80px 32px;
-    gap: 8px; padding: 9px 12px;
-    background: var(--navy);
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.85);
-  }
+/* ============ FORMULARIO ============ */
+.grid-form{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:1.1rem;
+}
+.campo{ display:flex; flex-direction:column; gap:.4rem; }
+.campo-ancho{ grid-column:1 / -1; }
 
-  .lista-item {
-    display: grid; grid-template-columns: 1fr 60px 80px 80px 32px;
-    gap: 8px; padding: 10px 12px;
-    background: var(--surface); border-top: 1px solid var(--border);
-    align-items: center;
-  }
-  .lista-item:nth-child(even) { background: var(--surface2); }
-  .item-nombre { font-size: 13px; font-weight: 600; color: var(--navy); }
-  .item-num { font-size: 13px; font-weight: 500; text-align: center; color: var(--muted); }
-  .item-precio { font-size: 13px; font-weight: 500; text-align: right; color: var(--muted); }
-  .item-subtotal { font-size: 13px; font-weight: 700; text-align: right; color: var(--teal); }
+label{ font-size:.85rem; font-weight:600; color:var(--texto); }
 
-  .btn-remove {
-    width: 28px; height: 28px; border-radius: 50%; border: none;
-    background: #fee2e2; color: #b71c1c; font-size: 16px; font-weight: 700;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s; line-height: 1;
-  }
-  .btn-remove:hover { background: #fca5a5; }
+input[type="text"], input[type="number"], select{
+  font-family:var(--fuente-texto);
+  padding:.7rem .9rem;
+  border-radius:12px;
+  border:1.5px solid var(--borde);
+  background:var(--fondo);
+  color:var(--texto);
+  font-size:.95rem;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+input:focus, select:focus{
+  outline:none;
+  border-color:var(--verde-primario);
+  box-shadow:0 0 0 4px var(--verde-suave);
+}
+input.campo-invalido, select.campo-invalido{
+  border-color:var(--rojo-alerta);
+  box-shadow:0 0 0 4px rgba(239,68,68,.12);
+}
+.mensaje-error{
+  color:var(--rojo-alerta);
+  font-size:.78rem;
+  min-height:1em;
+  display:block;
+}
 
-  /* TOTAL */
-  .total-row {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--navy); border-radius: var(--radius); padding: 16px 18px; margin-top: 1rem;
-  }
-  .total-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
-  .total-value { font-family: 'DM Serif Display', serif; font-size: clamp(22px, 6vw, 32px); color: #4ec9a0; letter-spacing: -0.02em; }
+.grupo-checks{
+  display:flex; flex-wrap:wrap; gap:.9rem;
+}
+.check{
+  display:flex; align-items:center; gap:.4rem;
+  font-weight:500; font-size:.9rem;
+  cursor:pointer;
+}
+.check input{ width:16px; height:16px; accent-color:var(--verde-primario); }
 
-  .empty-msg { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 14px; border: 1.5px dashed var(--border); border-radius: var(--radius); background: var(--surface2); margin-top: 1rem; }
+/* ============ BOTONES ============ */
+.fila-botones{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top:1.5rem; }
+.fila-botones-resultado{ margin-top:0; margin-bottom:0; }
 
-  /* BUTTONS */
-  .btn {
-    width: 100%; padding: 15px; background: var(--teal); color: #fff; border: none;
-    border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
-    font-size: clamp(14px, 4vw, 16px); font-weight: 700; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: background 0.2s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 52px;
-  }
-  .btn:hover { background: var(--teal-dark); }
-  .btn:active { transform: scale(0.98); }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
-  .btn-outline:hover { background: var(--surface2); }
-  .btn-whatsapp { background: var(--whatsapp); color: #fff; margin-top: 10px; display: none; }
-  .btn-whatsapp:hover { background: var(--whatsapp-hover); }
-  .btn-whatsapp.visible { display: flex; }
+.boton{
+  font-family:var(--fuente-texto);
+  font-weight:600;
+  font-size:.92rem;
+  padding:.8rem 1.4rem;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  display:inline-flex; align-items:center; gap:.5rem;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.boton:active{ transform:scale(.97); }
 
-  .status { margin-top: 12px; padding: 12px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 600; display: none; align-items: center; gap: 10px; line-height: 1.4; }
-  .status.success { display: flex; background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); }
-  .status.error { display: flex; background: var(--error-bg); border: 1px solid var(--error-border); color: var(--error-text); }
+.boton-primario{
+  background:var(--gradiente-primario);
+  color:var(--blanco);
+  box-shadow:0 8px 20px rgba(16,185,129,.28);
+}
+.boton-primario:hover{ box-shadow:0 10px 26px rgba(16,185,129,.4); transform:translateY(-2px); }
 
-  .footer { margin-top: 1.5rem; text-align: center; }
-  .footer a { font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; letter-spacing: 0.03em; }
-  .footer a:hover { color: var(--teal); }
+.boton-secundario{
+  background:var(--fondo);
+  color:var(--texto);
+  border:1.5px solid var(--borde);
+}
+.boton-secundario:hover{ border-color:var(--azul-primario); color:var(--azul-primario); transform:translateY(-2px); }
 
-  /* MODAL */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,30,60,0.7); z-index: 100; align-items: flex-end; justify-content: center; padding: 0; }
-  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
-  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-  .modal { background: var(--surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 1.5rem; width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
-  @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
-  .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1.25rem; }
-  .modal-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.2rem, 5vw, 1.5rem); margin-bottom: 0.3rem; color: var(--navy); }
-  .modal-subtitle { font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 1.25rem; }
-  .modal-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-  .modal-table tr { border-bottom: 1px solid var(--border); }
-  .modal-table tr:last-child { border-bottom: none; }
-  .modal-table td { padding: 8px 0; font-size: 14px; }
-  .modal-table td:first-child { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; width: 38%; }
-  .modal-table td:last-child { color: var(--navy); font-weight: 600; }
-  .modal-productos { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; border-radius: var(--radius); overflow: hidden; }
-  .modal-productos th { background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 10px; text-align: left; }
-  .modal-productos th:last-child { text-align: right; }
-  .modal-productos td { padding: 8px 10px; font-size: 13px; border-bottom: 1px solid var(--border); }
-  .modal-productos td:last-child { text-align: right; font-weight: 700; color: var(--teal); }
-  .modal-total-final { display: flex; justify-content: space-between; align-items: center; background: var(--navy); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 1.25rem; }
-  .modal-total-final span:first-child { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
-  .modal-total-final span:last-child { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: #4ec9a0; }
-  .modal-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.boton-whatsapp{
+  background:#25D366;
+  color:var(--blanco);
+  box-shadow:0 8px 20px rgba(37,211,102,.28);
+}
+.boton-whatsapp:hover{ box-shadow:0 10px 26px rgba(37,211,102,.4); transform:translateY(-2px); filter:brightness(1.05); }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+/* ============ RESULTADOS ============ */
+.oculto{ display:none; }
 
-  @media (max-width: 480px) {
-    body { padding: 1rem 0.75rem 3rem; }
-    .grid-2 { grid-template-columns: 1fr; }
-    .add-row { grid-template-columns: 1fr 1fr; }
-    .add-row .btn-add { grid-column: 1 / -1; width: 100%; }
-    .lista-header, .lista-item { grid-template-columns: 1fr 48px 68px 68px 28px; font-size: 12px; }
-    .modal-btns { grid-template-columns: 1fr; }
-  }
-  @media (min-width: 768px) {
-    .modal-overlay { align-items: center; padding: 1rem; }
-    .modal { border-radius: var(--radius-lg); max-height: 85vh; }
-    .modal-handle { display: none; }
-    @keyframes slideUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
-  }
+.encabezado-reporte{ background:var(--gradiente-primario); color:var(--blanco); }
+.encabezado-reporte h2{ font-size:1.4rem; }
+.encabezado-reporte p{ opacity:.92; margin-top:.25rem; }
 
-  /* LOGIN */
-  .login-overlay {
-    position: fixed; inset: 0;
-    background: linear-gradient(135deg, #dde8f2 0%, #e8f2f8 50%, #d8edf2 100%);
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-  .login-box {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-    padding: 2.5rem 2rem;
-    width: 100%;
-    max-width: 380px;
-    animation: fadeUp 0.4s ease both;
-  }
-  .login-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; justify-content: center; }
-  .login-title { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); line-height: 1; }
-  .login-title span { color: #4ec9a0; }
-  .login-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 2px; }
-  .login-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-  .login-field label { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--navy); text-transform: uppercase; }
-  .login-error { display: none; color: #b71c1c; font-size: 13px; font-weight: 600; background: #fdecea; border: 1px solid #e57373; border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; }
-  .login-error.show { display: block; }
+.rejilla-indicadores{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+.tarjeta-indicador{
+  background:var(--fondo);
+  border:1px solid var(--borde);
+  border-radius:16px;
+  padding:1.25rem;
+  text-align:center;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.tarjeta-indicador:hover{ transform:translateY(-4px); box-shadow:var(--sombra-hover); }
+.icono-indicador{ font-size:1.8rem; display:block; margin-bottom:.4rem; }
+.tarjeta-indicador h3{ font-size:.82rem; color:var(--texto-secundario); font-weight:600; margin-bottom:.35rem; }
+.valor-grande{ font-size:1.35rem; font-weight:700; color:var(--texto); }
+.texto-pequeno{ font-size:.75rem; color:var(--texto-secundario); margin-top:.2rem; }
 
+/* Dial (gauge) de IMC — elemento visual distintivo tipo instrumento médico */
+.dial-imc-envoltorio{ position:relative; width:120px; height:70px; margin:0 auto .5rem; }
+.dial-imc{
+  width:120px; height:60px;
+  border-radius:120px 120px 0 0;
+  background:conic-gradient(from 180deg,
+    #38BDF8 0deg, #10B981 90deg, #F59E0B 135deg, #EF4444 180deg);
+  position:relative;
+  overflow:hidden;
+}
+.dial-imc::after{
+  content:"";
+  position:absolute;
+  left:10px; top:10px; right:10px; bottom:0;
+  background:var(--fondo);
+  border-radius:100px 100px 0 0;
+}
+.dial-aguja{
+  position:absolute;
+  bottom:0; left:50%;
+  width:3px; height:52px;
+  background:var(--texto);
+  transform-origin:bottom center;
+  transform:translateX(-50%) rotate(0deg);
+  transition:transform 1s cubic-bezier(.34,1.56,.64,1);
+  border-radius:3px;
+  z-index:2;
+}
+.dial-centro{
+  position:absolute; bottom:-5px; left:50%;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--texto);
+  transform:translateX(-50%);
+  z-index:3;
+}
+.dial-valor{ font-size:1.3rem; font-weight:700; margin-top:.3rem; }
+.etiqueta-clasificacion{
+  display:inline-block;
+  margin-top:.3rem;
+  padding:.2rem .7rem;
+  border-radius:20px;
+  font-size:.78rem;
+  font-weight:700;
+  background:var(--verde-suave);
+  color:var(--verde-oscuro);
+}
 
-  .btn-pdf { background: #c0392b; color: #fff; margin-top: 10px; display: none; }
-  .btn-pdf:hover { background: #a93226; }
-  .btn-pdf.visible { display: flex; }
+/* Macronutrientes */
+.macros{ margin-top:1.75rem; }
+.titulo-macros{ font-size:1rem; margin-bottom:1rem; }
+.macro-item{ margin-bottom:1rem; }
+.macro-etiqueta{ display:flex; justify-content:space-between; font-size:.88rem; font-weight:600; margin-bottom:.4rem; }
+.barra-progreso{
+  width:100%; height:12px; border-radius:20px;
+  background:var(--fondo);
+  border:1px solid var(--borde);
+  overflow:hidden;
+}
+.barra-relleno{
+  height:100%; border-radius:20px;
+  width:0%;
+  transition:width 1.1s cubic-bezier(.22,1,.36,1);
+}
+.barra-proteina{ background:linear-gradient(90deg, var(--azul-primario), var(--azul-claro)); }
+.barra-carbohidratos{ background:linear-gradient(90deg, var(--verde-oscuro), var(--verde-primario)); }
+.barra-grasas{ background:linear-gradient(90deg, #F59E0B, #FBBF24); }
 
-  /* RECIBO PDF */
-  @media print {
-    body > * { display: none !important; }
-    #reciboImprimir { display: block !important; }
-  }
-  #reciboImprimir {
-    display: none;
-    font-family: Arial, sans-serif;
-    max-width: 420px;
-    margin: 0 auto;
-    padding: 20px;
-    color: #1a3a5c;
-  }
-  #reciboImprimir .recibo-header { text-align: center; border-bottom: 2px solid #0a7c6e; padding-bottom: 12px; margin-bottom: 14px; }
-  #reciboImprimir .recibo-logo-text { font-size: 22px; font-weight: 700; color: #1a3a5c; }
-  #reciboImprimir .recibo-logo-text span { color: #0a7c6e; }
-  #reciboImprimir .recibo-sub { font-size: 11px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
-  #reciboImprimir .recibo-num { font-size: 12px; color: #888; margin-top: 4px; }
-  #reciboImprimir .recibo-section { margin-bottom: 12px; }
-  #reciboImprimir .recibo-section-title { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #0a7c6e; border-bottom: 1px solid #e6f4f2; padding-bottom: 4px; margin-bottom: 8px; }
-  #reciboImprimir .recibo-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
-  #reciboImprimir .recibo-row .label { color: #888; }
-  #reciboImprimir .recibo-row .value { font-weight: 600; color: #1a3a5c; }
-  #reciboImprimir table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 8px; }
-  #reciboImprimir table th { background: #1a3a5c; color: #fff; padding: 6px 8px; text-align: left; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
-  #reciboImprimir table th:last-child { text-align: right; }
-  #reciboImprimir table td { padding: 6px 8px; border-bottom: 1px solid #e6f4f2; }
-  #reciboImprimir table td:last-child { text-align: right; font-weight: 700; color: #0a7c6e; }
-  #reciboImprimir .recibo-total { background: #1a3a5c; color: #fff; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-  #reciboImprimir .recibo-total .total-label { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; }
-  #reciboImprimir .recibo-total .total-amount { font-size: 20px; font-weight: 700; color: #4ec9a0; }
-  #reciboImprimir .recibo-footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 16px; border-top: 1px solid #eee; padding-top: 10px; }
+/* ============ GRÁFICOS ============ */
+.rejilla-graficos{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:1.5rem;
+  margin-top:1rem;
+}
+.contenedor-grafico{
+  background:var(--fondo);
+  border:1px solid var(--borde);
+  border-radius:16px;
+  padding:1rem;
+}
+.contenedor-grafico h4{ font-size:.85rem; text-align:center; margin-bottom:.75rem; color:var(--texto-secundario); }
+.contenedor-grafico canvas{ max-height:220px; }
 
+/* ============ PLAN DE COMIDAS ============ */
+.rejilla-comidas{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:1.1rem;
+  margin-top:1rem;
+}
+.tarjeta-comida{
+  border-radius:16px;
+  padding:1.25rem;
+  border:1px solid var(--borde);
+  background:var(--fondo);
+  border-left:5px solid var(--verde-primario);
+  transition:transform .2s ease;
+}
+.tarjeta-comida:hover{ transform:translateY(-3px); }
+.tarjeta-comida h4{
+  display:flex; align-items:center; gap:.5rem;
+  font-size:1rem; margin-bottom:.5rem;
+}
+.tarjeta-comida .kcal-objetivo{
+  font-size:.75rem; font-weight:700;
+  color:var(--verde-oscuro);
+  background:var(--verde-suave);
+  padding:.15rem .55rem;
+  border-radius:10px;
+  margin-left:auto;
+}
+.tarjeta-comida p{ font-size:.88rem; color:var(--texto-secundario); }
 
-  /* SUPERVISOR */
-  .btn-supervisor {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-    color: #fff; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 100px; padding: 5px 14px; cursor: pointer; white-space: nowrap;
-    transition: background 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .btn-supervisor:hover { background: rgba(255,255,255,0.25); }
+/* ============ GRUPOS DE ALIMENTOS ============ */
+.rejilla-alimentos{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:1.1rem;
+  margin-top:1rem;
+}
+.grupo-alimento{
+  border-radius:16px;
+  padding:1.1rem 1.25rem;
+  border:1px solid var(--borde);
+}
+.grupo-alimento h4{ font-size:.92rem; margin-bottom:.6rem; }
+.grupo-alimento ul{ list-style:none; display:flex; flex-direction:column; gap:.35rem; }
+.grupo-alimento li{ font-size:.85rem; color:var(--texto-secundario); padding-left:1rem; position:relative; }
+.grupo-alimento li::before{ content:"•"; position:absolute; left:0; color:var(--verde-primario); font-weight:700; }
+.grupo-frutas{ background:var(--verde-suave); }
+.grupo-verduras{ background:var(--verde-suave); }
+.grupo-proteinas{ background:var(--azul-suave); }
+.grupo-grasas{ background:var(--azul-suave); }
+.grupo-evitar{ background:rgba(239,68,68,.08); }
+.grupo-evitar li::before{ content:"✕"; color:var(--rojo-alerta); font-size:.7rem; }
 
-  /* SUPERVISOR LOGIN */
-  .sup-login-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(10,30,60,0.85);
-    z-index: 200; align-items: center; justify-content: center; padding: 1rem;
-    backdrop-filter: blur(4px);
-  }
-  .sup-login-overlay.open { display: flex; }
-  .sup-login-box {
-    background: #fff; border-radius: var(--radius-lg); padding: 2rem;
-    width: 100%; max-width: 340px; box-shadow: var(--shadow);
-    animation: fadeUp 0.3s ease;
-  }
-  .sup-login-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.3rem; }
-  .sup-login-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
-  .sup-login-error { display: none; color: #b71c1c; font-size: 13px; font-weight: 600; background: #fdecea; border: 1px solid #e57373; border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; }
-  .sup-login-error.show { display: block; }
+/* ============ RECOMENDACIONES ============ */
+.lista-recomendaciones{ list-style:none; display:flex; flex-direction:column; gap:.7rem; margin-top:.75rem; }
+.lista-recomendaciones li{
+  padding:.85rem 1rem;
+  border-radius:12px;
+  background:var(--fondo);
+  border-left:4px solid var(--azul-primario);
+  font-size:.92rem;
+}
 
-  /* SUPERVISOR PANEL */
-  .sup-panel-overlay {
-    display: none; position: fixed; inset: 0; background: linear-gradient(135deg, #dde8f2 0%, #e8f2f8 50%, #d8edf2 100%);
-    z-index: 150; overflow-y: auto; padding: 2rem 1rem 4rem;
-  }
-  .sup-panel-overlay.open { display: block; }
-  .sup-panel-container { max-width: 640px; margin: 0 auto; }
-  .sup-header {
-    background: var(--navy); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem; display: flex; align-items: center;
-    justify-content: space-between; gap: 1rem; flex-wrap: wrap; box-shadow: var(--shadow);
-  }
-  .sup-title { font-family: 'DM Sans', sans-serif; font-size: 1.3rem; font-weight: 700; color: #fff; }
-  .sup-title span { color: #4ec9a0; }
-  .sup-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 5px 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; }
-  .btn-cerrar-sup { font-size: 12px; font-weight: 700; color: #fff; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 100px; padding: 5px 14px; cursor: pointer; }
-  .btn-cerrar-sup:hover { background: rgba(255,255,255,0.25); }
+.texto-legal{
+  text-align:center;
+  font-size:.8rem;
+  color:var(--texto-secundario);
+  margin-top:.5rem;
+  padding:1rem;
+}
 
+/* ============ PIE DE PÁGINA ============ */
+.pie-pagina{ text-align:center; color:var(--texto-secundario); font-size:.82rem; margin-top:2.5rem; }
 
-  /* ADMIN GESTIÓN */
-  .admin-section { margin-bottom: 1rem; }
-  .admin-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .admin-tag {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal);
-    border-radius: 100px; padding: 4px 12px; font-size: 13px; font-weight: 600;
-  }
-  .admin-tag .remove-tag {
-    background: none; border: none; color: var(--teal); cursor: pointer;
-    font-size: 16px; font-weight: 700; line-height: 1; padding: 0;
-  }
-  .add-item-row { display: flex; gap: 8px; margin-top: 10px; }
-  .add-item-row input { flex: 1; }
-  .btn-add-item {
-    padding: 0 16px; height: 44px; background: var(--navy); color: #fff;
-    border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
-    font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
-    transition: background 0.2s;
-  }
-  .btn-add-item:hover { background: var(--teal); }
+/* ============ RESPONSIVE ============ */
+@media (max-width:640px){
+  .encabezado h1{ font-size:1.4rem; }
+  .tarjeta{ padding:1.25rem; }
+  .fila-botones{ flex-direction:column; }
+  .boton{ width:100%; justify-content:center; }
+}
+
+/* ============ IMPRESIÓN ============ */
+@media print{
+  body{ background:var(--blanco); color:#000; }
+  .btn-tema, .encabezado, .no-imprimir, footer, #seccionFormulario{ display:none !important; }
+  .contenedor{ margin-top:0; }
+  .tarjeta{ box-shadow:none; border:1px solid #ccc; break-inside:avoid; }
+}
+
+/* Respeto por preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+}
 
 </style>
 </head>
 <body>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Confirmar pedido</div>
-    <div class="modal-subtitle">Revisa todos los datos antes de enviar a Google Drive</div>
-    <table class="modal-table">
-      <tr><td>Empleado</td><td id="m-empleado">-</td></tr>
-      <tr><td>Cliente</td><td id="m-nombre">-</td></tr>
-      <tr><td>Telefono</td><td id="m-telefono">-</td></tr>
-      <tr><td>Direccion</td><td id="m-direccion">-</td></tr>
-      <tr><td>Fecha</td><td id="m-fecha">-</td></tr>
-      <tr><td>Notas</td><td id="m-notas">-</td></tr>
-    </table>
-    <div class="section-title" style="margin-bottom:0.75rem">Productos</div>
-    <table class="modal-productos">
-      <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
-      <tbody id="m-productos"></tbody>
-    </table>
-    <div class="modal-total-final">
-      <span>Total general</span>
-      <span id="m-total">$0.00</span>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-outline" onclick="cerrarModal()">Cancelar</button>
-      <button class="btn" id="btnConfirmar" onclick="confirmarEnvio()">
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Confirmar y guardar
-      </button>
-    </div>
-  </div>
-</div>
+<!-- ============ BOTÓN MODO OSCURO ============ -->
+<button id="btnTema" class="btn-tema" title="Cambiar tema" aria-label="Cambiar entre modo claro y oscuro">
+  <span id="iconoTema">🌙</span>
+</button>
 
-
-<!-- LOGIN OVERLAY -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-box">
-    <div class="login-logo">
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="22" cy="22" r="22" fill="#0a4a5e"/>
-        <path d="M22 8C22 8 12 18 12 25C12 30.5 16.5 35 22 35C27.5 35 32 30.5 32 25C32 18 22 8 22 8Z" fill="#4ec9a0"/>
-        <path d="M22 8C22 8 17 20 19 25C20.2 28.2 22 29 22 29C22 29 24 28 24.5 25C25.5 20 22 8 22 8Z" fill="#a8edd8" opacity="0.6"/>
-        <text x="22" y="28" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="10" fill="white" letter-spacing="0.5">L</text>
-      </svg>
+<!-- ============ ENCABEZADO ============ -->
+<header class="encabezado">
+  <div class="encabezado-contenido">
+    <div class="logo-grupo">
+      <div class="logo-cruz" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="30" height="30">
+          <path d="M10 2h4v8h8v4h-8v8h-4v-8H2v-4h8V2z" fill="currentColor"/>
+        </svg>
+      </div>
       <div>
-        <div class="login-title">AQUA <span>LUAN</span></div>
-        <div class="login-sub">Sistema de Pedidos</div>
+        <h1>ElhyAI <span>Nutrición</span></h1>
+        <p class="subtitulo">Plan de alimentación personalizado, basado en evidencia científica</p>
       </div>
-    </div>
-    <div class="login-field">
-      <label>Usuario</label>
-      <input type="text" id="loginUser" placeholder="Ingresa tu usuario" autocomplete="username" onkeydown="if(event.key==='Enter') doLogin()">
-    </div>
-    <div class="login-field">
-      <label>Contraseña</label>
-      <input type="password" id="loginPass" placeholder="Ingresa tu contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()">
-    </div>
-    <div class="login-error" id="loginError">Usuario o contraseña incorrectos.</div>
-    <button class="btn" onclick="doLogin()" style="margin-top:8px">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 8h7M10 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 3H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Ingresar
-    </button>
-  </div>
-</div>
-
-<div class="container">
-
-  <!-- HEADER CON LOGO -->
-  <div class="header">
-    <div class="logo-wrap">
-      <svg class="logo-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="22" cy="22" r="22" fill="#0a4a5e"/>
-        <path d="M22 8C22 8 12 18 12 25C12 30.5 16.5 35 22 35C27.5 35 32 30.5 32 25C32 18 22 8 22 8Z" fill="#4ec9a0"/>
-        <path d="M22 8C22 8 17 20 19 25C20.2 28.2 22 29 22 29C22 29 24 28 24.5 25C25.5 20 22 8 22 8Z" fill="#a8edd8" opacity="0.6"/>
-        <text x="22" y="28" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="700" font-size="10" fill="white" letter-spacing="0.5">L</text>
-      </svg>
-      <div class="logo-text">
-        <div class="logo-name">AQUA <span>LUAN</span></div>
-        <div class="logo-sub">Registro de Pedidos</div>
-      </div>
-    </div>
-    <div class="date-badge" id="fechaHoy"></div>
-    <button class="btn-supervisor" onclick="abrirSupLogin()">&#9654; Supervisor</button>
-  </div>
-
-  <!-- DATOS CLIENTE -->
-  <div class="card">
-    <div class="section-title">Empleado responsable</div>
-    <div class="field">
-      <label>Nombre del empleado</label>
-      <select id="empleado" required>
-        <option value="">-- Selecciona empleado --</option>
-      </select>
-    </div>
-    <hr class="divider">
-    <div class="section-title">Datos del cliente</div>
-    <div class="field">
-      <label>Nombre completo</label>
-      <input type="text" id="nombre" placeholder="Ej. Maria Garcia Lopez" autocomplete="off" required>
-    </div>
-    <div class="grid-2">
-      <div class="field">
-        <label>Telefono</label>
-        <input type="tel" id="telefono" placeholder="0991234567" autocomplete="off" inputmode="tel">
-      </div>
-      <div class="field">
-        <label>Fecha</label>
-        <input type="date" id="fecha">
-      </div>
-    </div>
-    <div class="field">
-      <label>Direccion</label>
-      <input type="text" id="direccion" placeholder="Calle, numero, sector" autocomplete="off">
-    </div>
-    <div class="field" style="margin-bottom:0">
-      <label>Notas adicionales</label>
-      <textarea id="notas" placeholder="Observaciones, condiciones de pago, entregas..."></textarea>
     </div>
   </div>
-
-  <!-- PRODUCTOS -->
-  <div class="card">
-    <div class="section-title">Productos del pedido</div>
-    <div class="add-row">
-      <div class="field">
-        <label>Producto</label>
-        <select id="sel-producto">
-          <option value="">-- Selecciona --</option>
-          <option value="BOTELLON 20LT">BOTELLON 20LT</option>
-          <option value="BOTELLON CON LLAVE">BOTELLON CON LLAVE</option>
-          <option value="PACA 625ML AZUL">PACA 625ML AZUL</option>
-          <option value="PACA 600ML VERDE">PACA 600ML VERDE</option>
-          <option value="PACA 1000ML">PACA 1000ML</option>
-          <option value="PACA 400ML">PACA 400ML</option>
-          <option value="GALONES 4LT">GALONES 4LT</option>
-          <option value="POMA 5LTS">POMA 5LTS</option>
-          <option value="ENVASE CON LLAVE">ENVASE CON LLAVE</option>
-          <option value="ENVASE AZUL ADICIONAL">ENVASE AZUL ADICIONAL</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Cantidad</label>
-        <input type="number" id="sel-cantidad" placeholder="1" min="1" value="1" inputmode="numeric">
-      </div>
-      <div class="field">
-        <label>Precio ($)</label>
-        <input type="number" id="sel-precio" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
-      </div>
-      <button class="btn-add" onclick="agregarProducto()">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        Agregar
-      </button>
-    </div>
-
-    <div class="productos-lista empty" id="productosLista">
-      <div class="lista-header">
-        <span>Producto</span>
-        <span style="text-align:center">Cant.</span>
-        <span style="text-align:right">Precio</span>
-        <span style="text-align:right">Subtotal</span>
-        <span></span>
-      </div>
-      <div id="productosItems"></div>
-    </div>
-
-    <div id="emptyMsg" class="empty-msg">
-      Aun no hay productos. Selecciona un producto y haz clic en <strong>Agregar</strong>.
-    </div>
-
-    <div class="total-row">
-      <span class="total-label">Total general</span>
-      <span class="total-value" id="totalGeneral">$0.00</span>
-    </div>
+  <!-- Línea de pulso (electrocardiograma) - elemento distintivo de identidad médica -->
+  <div class="linea-pulso" aria-hidden="true">
+    <svg viewBox="0 0 600 60" preserveAspectRatio="none">
+      <polyline class="trazo-pulso" points="0,30 60,30 80,30 95,10 110,50 125,5 140,55 155,30 175,30 600,30" />
+    </svg>
   </div>
+</header>
 
-  <!-- GUARDAR -->
-  <div class="card">
-    <button class="btn" id="btnGuardar" onclick="abrirModal()">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 10v2a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 12v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 2v7M5.5 6.5 8 9l2.5-2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Guardar registro
-    </button>
+<main class="contenedor">
 
-    <button class="btn btn-whatsapp" id="btnWhatsapp" onclick="enviarWhatsapp()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Enviar por WhatsApp a Zoila
-    </button>
+  <!-- ============ FORMULARIO ============ -->
+  <section class="tarjeta tarjeta-formulario" id="seccionFormulario">
+    <h2><span class="numero-seccion">01</span> Cuéntanos sobre ti</h2>
+    <p class="texto-ayuda">Completa tus datos para generar tu plan nutricional. Todos los campos marcados con * son obligatorios.</p>
 
-    <button class="btn btn-pdf" id="btnPdf" onclick="imprimirRecibo()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 9V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="14" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.8"/></svg>
-      Imprimir / Guardar PDF
-    </button>
-    <div class="status" id="status"></div>
-  </div>
+    <form id="formNutricion" novalidate>
+      <div class="grid-form">
 
-  <div class="footer"><a href="https://www.elhyai.com" target="_blank">www.elhyai.com &nbsp;|&nbsp; Aqua Luan</a></div>
-</div>
+        <div class="campo">
+          <label for="nombre">Nombre *</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej. María Pérez" required>
+          <span class="mensaje-error" id="errorNombre"></span>
+        </div>
+
+        <div class="campo">
+          <label for="edad">Edad (años) *</label>
+          <input type="number" id="edad" name="edad" min="10" max="100" placeholder="Ej. 30" required>
+          <span class="mensaje-error" id="errorEdad"></span>
+        </div>
+
+        <div class="campo">
+          <label for="sexo">Sexo *</label>
+          <select id="sexo" name="sexo" required>
+            <option value="">Selecciona una opción</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+          </select>
+          <span class="mensaje-error" id="errorSexo"></span>
+        </div>
+
+        <div class="campo">
+          <label for="peso">Peso (kg) *</label>
+          <input type="number" id="peso" name="peso" min="20" max="300" step="0.1" placeholder="Ej. 70" required>
+          <span class="mensaje-error" id="errorPeso"></span>
+        </div>
+
+        <div class="campo">
+          <label for="estatura">Estatura (cm) *</label>
+          <input type="number" id="estatura" name="estatura" min="100" max="250" step="0.1" placeholder="Ej. 170" required>
+          <span class="mensaje-error" id="errorEstatura"></span>
+        </div>
+
+        <div class="campo">
+          <label for="actividad">Nivel de actividad física *</label>
+          <select id="actividad" name="actividad" required>
+            <option value="">Selecciona una opción</option>
+            <option value="sedentario">Sedentario (poco o ningún ejercicio)</option>
+            <option value="ligero">Ligero (1-3 días/semana)</option>
+            <option value="moderado">Moderado (3-5 días/semana)</option>
+            <option value="intenso">Intenso (6-7 días/semana)</option>
+            <option value="muy_intenso">Muy intenso (2 veces al día / trabajo físico)</option>
+          </select>
+          <span class="mensaje-error" id="errorActividad"></span>
+        </div>
+
+        <div class="campo">
+          <label for="objetivo">Objetivo *</label>
+          <select id="objetivo" name="objetivo" required>
+            <option value="">Selecciona una opción</option>
+            <option value="bajar">Bajar de peso</option>
+            <option value="mantener">Mantener peso</option>
+            <option value="ganar">Ganar masa muscular</option>
+          </select>
+          <span class="mensaje-error" id="errorObjetivo"></span>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label>Enfermedades preexistentes</label>
+          <div class="grupo-checks">
+            <label class="check"><input type="checkbox" name="enfermedad" value="diabetes"> Diabetes</label>
+            <label class="check"><input type="checkbox" name="enfermedad" value="hipertension"> Hipertensión</label>
+            <label class="check"><input type="checkbox" name="enfermedad" value="colesterol"> Colesterol alto</label>
+            <label class="check"><input type="checkbox" name="enfermedad" value="ninguna" id="chkNinguna" checked> Ninguna</label>
+          </div>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="alergias">Alergias alimentarias (separa con comas)</label>
+          <input type="text" id="alergias" name="alergias" placeholder="Ej. maní, mariscos, lactosa">
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="noGustan">Alimentos que no te gustan (separa con comas)</label>
+          <input type="text" id="noGustan" name="noGustan" placeholder="Ej. brócoli, hígado, cilantro">
+        </div>
+
+      </div>
+
+      <div class="fila-botones">
+        <button type="submit" class="boton boton-primario" id="btnCalcular">
+          <span>🧮</span> Calcular mi plan
+        </button>
+        <button type="button" class="boton boton-secundario" id="btnLimpiar">
+          <span>🗑️</span> Limpiar datos
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============ RESULTADOS (oculto hasta calcular) ============ -->
+  <section id="seccionResultados" class="oculto">
+
+    <div class="fila-botones fila-botones-resultado no-imprimir">
+      <button type="button" class="boton boton-secundario" id="btnImprimir"><span>🖨️</span> Imprimir plan</button>
+      <button type="button" class="boton boton-secundario" id="btnPDF"><span>📄</span> Descargar en PDF</button>
+      <button type="button" class="boton boton-whatsapp" id="btnWhatsapp"><span>💬</span> Enviar por WhatsApp</button>
+    </div>
+
+    <div id="contenidoImprimible">
+
+      <!-- Encabezado del reporte -->
+      <div class="tarjeta encabezado-reporte">
+        <h2>Hola, <span id="nombreUsuario">—</span> 👋</h2>
+        <p>Este es tu plan nutricional personalizado, generado el <span id="fechaReporte"></span>.</p>
+      </div>
+
+      <!-- Resumen de indicadores -->
+      <section class="tarjeta">
+        <h2><span class="numero-seccion">02</span> Tu diagnóstico nutricional</h2>
+
+        <div class="rejilla-indicadores">
+
+          <div class="tarjeta-indicador">
+            <div class="dial-imc-envoltorio">
+              <div class="dial-imc" id="dialImc">
+                <div class="dial-aguja" id="agujaImc"></div>
+                <div class="dial-centro"></div>
+              </div>
+              <div class="dial-valor" id="valorImc">--</div>
+            </div>
+            <h3>Índice de Masa Corporal</h3>
+            <p class="etiqueta-clasificacion" id="clasificacionImc">--</p>
+          </div>
+
+          <div class="tarjeta-indicador">
+            <span class="icono-indicador">⚖️</span>
+            <h3>Peso ideal estimado</h3>
+            <p class="valor-grande" id="pesoIdeal">--</p>
+            <p class="texto-pequeno">Rango saludable según tu estatura</p>
+          </div>
+
+          <div class="tarjeta-indicador">
+            <span class="icono-indicador">🔥</span>
+            <h3>Tasa Metabólica Basal</h3>
+            <p class="valor-grande" id="tmb">--</p>
+            <p class="texto-pequeno">Fórmula de Mifflin-St Jeor</p>
+          </div>
+
+          <div class="tarjeta-indicador">
+            <span class="icono-indicador">🍽️</span>
+            <h3>Calorías diarias sugeridas</h3>
+            <p class="valor-grande" id="caloriasDiarias">--</p>
+            <p class="texto-pequeno" id="detalleCalorias">--</p>
+          </div>
+
+          <div class="tarjeta-indicador">
+            <span class="icono-indicador">💧</span>
+            <h3>Agua recomendada</h3>
+            <p class="valor-grande" id="aguaRecomendada">--</p>
+            <p class="texto-pequeno">Distribuida a lo largo del día</p>
+          </div>
+
+        </div>
+
+        <!-- Macronutrientes con barras de progreso -->
+        <div class="macros">
+          <h3 class="titulo-macros">Distribución de macronutrientes</h3>
+
+          <div class="macro-item">
+            <div class="macro-etiqueta"><span>🥩 Proteínas</span><span id="valorProteina">-- g</span></div>
+            <div class="barra-progreso"><div class="barra-relleno barra-proteina" id="barraProteina" style="width:0%"></div></div>
+          </div>
+
+          <div class="macro-item">
+            <div class="macro-etiqueta"><span>🍞 Carbohidratos</span><span id="valorCarbohidratos">-- g</span></div>
+            <div class="barra-progreso"><div class="barra-relleno barra-carbohidratos" id="barraCarbohidratos" style="width:0%"></div></div>
+          </div>
+
+          <div class="macro-item">
+            <div class="macro-etiqueta"><span>🥑 Grasas</span><span id="valorGrasas">-- g</span></div>
+            <div class="barra-progreso"><div class="barra-relleno barra-grasas" id="barraGrasas" style="width:0%"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel de gráficos -->
+      <section class="tarjeta">
+        <h2><span class="numero-seccion">03</span> Panel visual</h2>
+        <div class="rejilla-graficos">
+          <div class="contenedor-grafico">
+            <h4>Clasificación de IMC</h4>
+            <canvas id="graficoImc"></canvas>
+          </div>
+          <div class="contenedor-grafico">
+            <h4>Calorías (consumo vs. objetivo)</h4>
+            <canvas id="graficoCalorias"></canvas>
+          </div>
+          <div class="contenedor-grafico">
+            <h4>Macronutrientes</h4>
+            <canvas id="graficoMacros"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Plan alimenticio diario -->
+      <section class="tarjeta">
+        <h2><span class="numero-seccion">04</span> Tu plan alimenticio diario</h2>
+        <div class="rejilla-comidas" id="rejillaComidas">
+          <!-- Las tarjetas de comidas se generan dinámicamente con JavaScript -->
+        </div>
+      </section>
+
+      <!-- Alimentos recomendados -->
+      <section class="tarjeta">
+        <h2><span class="numero-seccion">05</span> Guía de alimentos</h2>
+        <div class="rejilla-alimentos">
+          <div class="grupo-alimento grupo-frutas">
+            <h4>🍎 Frutas recomendadas</h4>
+            <ul id="listaFrutas"></ul>
+          </div>
+          <div class="grupo-alimento grupo-verduras">
+            <h4>🥦 Verduras recomendadas</h4>
+            <ul id="listaVerduras"></ul>
+          </div>
+          <div class="grupo-alimento grupo-proteinas">
+            <h4>🍗 Proteínas saludables</h4>
+            <ul id="listaProteinas"></ul>
+          </div>
+          <div class="grupo-alimento grupo-grasas">
+            <h4>🥑 Grasas saludables</h4>
+            <ul id="listaGrasasBuenas"></ul>
+          </div>
+          <div class="grupo-alimento grupo-evitar">
+            <h4>🚫 Alimentos a evitar</h4>
+            <ul id="listaEvitar"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recomendaciones personalizadas -->
+      <section class="tarjeta">
+        <h2><span class="numero-seccion">06</span> Recomendaciones personalizadas</h2>
+        <ul class="lista-recomendaciones" id="listaRecomendaciones"></ul>
+      </section>
+
+      <p class="texto-legal">⚠️ Este plan es generado automáticamente con fines informativos y educativos. No sustituye la consulta con un médico o nutricionista certificado.</p>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie-pagina no-imprimir">
+  <p>ElhyAI Nutrición · Herramienta educativa de nutrición · Hecho con 💚 y 💙</p>
+</footer>
+
+<!-- Librerías externas: Chart.js para gráficos, jsPDF + html2canvas para exportar el plan a PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwo_NTtQrGMJ4DqVKq3qQT8nrq8YjP55vcgD0PKBde69qngR2boYU-fvXJPqw6kLdG0rw/exec";
-  const WHATSAPP_NUMBER = "593985886107";
-  let productos = [];
-  let dataPendiente = null;
-  let ultimoRegistro = null;
+/* =========================================================
+   MI NUTRICIONISTA IA — LÓGICA DE LA APLICACIÓN
+   Todo el cálculo se hace en el cliente, sin backend ni base de datos.
+   ========================================================= */
 
-  (function() {
-    const hoy = new Date();
-    document.getElementById('fechaHoy').textContent = hoy.toLocaleDateString('es-EC', { weekday:'long', day:'numeric', month:'long' });
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth()+1).padStart(2,'0');
-    const dd = String(hoy.getDate()).padStart(2,'0');
-    document.getElementById('fecha').value = yyyy+'-'+mm+'-'+dd;
-  })();
+/* ---------------------------------------------------------
+   1. BASES DE DATOS DE ALIMENTOS (listas + plan de comidas)
+   --------------------------------------------------------- */
 
-  function calcTotal() { return productos.reduce((s,p) => s + p.subtotal, 0); }
+// Listas generales de alimentos recomendados
+const BASE_FRUTAS = ["Manzana", "Pera", "Fresas", "Arándanos", "Papaya", "Sandía", "Kiwi", "Naranja", "Plátano (con moderación)"];
+const BASE_VERDURAS = ["Brócoli", "Espinaca", "Zanahoria", "Calabacín", "Pepino", "Pimiento", "Lechuga", "Tomate", "Coliflor"];
+const BASE_PROTEINAS = ["Pechuga de pollo", "Pescado blanco", "Salmón", "Huevo", "Tofu", "Lentejas", "Garbanzos", "Pavo", "Claras de huevo"];
+const BASE_GRASAS = ["Aguacate", "Aceite de oliva", "Almendras", "Nueces", "Semillas de chía", "Semillas de linaza", "Maní natural"];
+const BASE_EVITAR = ["Frituras", "Bebidas azucaradas", "Comida ultraprocesada", "Bollería industrial", "Embutidos"];
 
-  function renderLista() {
-    const items = document.getElementById('productosItems');
-    const lista = document.getElementById('productosLista');
-    const emptyMsg = document.getElementById('emptyMsg');
-    if (productos.length === 0) {
-      lista.classList.add('empty');
-      emptyMsg.style.display = 'block';
-    } else {
-      lista.classList.remove('empty');
-      emptyMsg.style.display = 'none';
+// Opciones de comidas por franja horaria. Cada opción tiene una descripción con
+// cantidades aproximadas y un arreglo de "tags" usado para filtrar por alergias/disgustos.
+const PLAN_COMIDAS = {
+  desayuno: [
+    { texto: "Avena cocida (1/2 taza) con leche descremada, plátano en rodajas y canela", tags: ["avena", "leche", "lacteo", "platano", "gluten"] },
+    { texto: "2 huevos revueltos con espinaca salteada y 1 rebanada de pan integral", tags: ["huevo", "pan", "gluten", "espinaca"] },
+    { texto: "Yogur griego natural (200 g) con fresas y 2 cucharadas de granola", tags: ["yogur", "lacteo", "fresas", "granola", "gluten"] },
+    { texto: "Tostadas de aguacate (2 rebanadas de pan integral) con tomate y queso fresco", tags: ["aguacate", "pan", "gluten", "tomate", "queso", "lacteo"] },
+    { texto: "Batido de proteína con leche de almendras, avena y fruta de temporada", tags: ["proteina", "almendras", "avena", "lacteo", "gluten"] },
+    { texto: "Omelette de claras con champiñones y 1 fruta pequeña", tags: ["huevo", "champiñones"] }
+  ],
+  snackManana: [
+    { texto: "1 fruta de temporada (manzana o pera) + 8 almendras", tags: ["manzana", "pera", "almendras"] },
+    { texto: "Yogur natural bajo en grasa (125 g)", tags: ["yogur", "lacteo"] },
+    { texto: "Batido verde de espinaca, manzana y agua", tags: ["espinaca", "manzana"] },
+    { texto: "2 galletas de arroz con crema de maní natural", tags: ["mani", "arroz"] },
+    { texto: "Puñado de nueces mixtas (25 g)", tags: ["nueces"] }
+  ],
+  almuerzo: [
+    { texto: "Pechuga de pollo a la plancha (150 g), arroz integral (1/2 taza) y ensalada mixta", tags: ["pollo", "arroz", "ensalada"] },
+    { texto: "Filete de pescado al horno (150 g), puré de camote y verduras salteadas", tags: ["pescado", "camote", "verduras"] },
+    { texto: "Lentejas guisadas (1 taza) con arroz integral y ensalada de tomate", tags: ["lentejas", "arroz", "tomate"] },
+    { texto: "Tofu salteado (150 g) con vegetales al wok y quinoa (1/2 taza)", tags: ["tofu", "soya", "quinoa"] },
+    { texto: "Pavo a la plancha (150 g) con puré de coliflor y espárragos", tags: ["pavo", "coliflor", "espárragos"] },
+    { texto: "Garbanzos guisados (1 taza) con arroz integral y verduras al vapor", tags: ["garbanzos", "arroz"] }
+  ],
+  snackTarde: [
+    { texto: "Requesón o queso cottage (100 g) con arándanos", tags: ["queso", "lacteo", "arandanos"] },
+    { texto: "Hummus (3 cdas) con bastones de zanahoria y pepino", tags: ["garbanzos", "zanahoria", "pepino"] },
+    { texto: "1 fruta de temporada + 1 huevo cocido", tags: ["huevo"] },
+    { texto: "Batido de proteína con agua y hielo", tags: ["proteina", "lacteo"] },
+    { texto: "Palitos de apio con crema de maní natural", tags: ["apio", "mani"] }
+  ],
+  cena: [
+    { texto: "Crema de verduras (calabaza o zapallo) con pechuga de pollo desmenuzada (120 g)", tags: ["pollo", "calabaza"] },
+    { texto: "Salmón al horno (130 g) con ensalada verde y aceite de oliva", tags: ["pescado", "salmon", "ensalada"] },
+    { texto: "Tortilla de claras con vegetales salteados y una porción pequeña de aguacate", tags: ["huevo", "aguacate"] },
+    { texto: "Ensalada completa con atún (1 lata), hojas verdes, tomate y pepino", tags: ["atun", "pescado", "tomate", "pepino"] },
+    { texto: "Sopa de lentejas ligera con vegetales", tags: ["lentejas"] },
+    { texto: "Pechuga de pavo a la plancha (120 g) con verduras al vapor", tags: ["pavo", "verduras"] }
+  ],
+  snackNocturno: [
+    { texto: "Infusión de manzanilla + 5 almendras", tags: ["almendras"] },
+    { texto: "Yogur natural sin azúcar (100 g)", tags: ["yogur", "lacteo"] },
+    { texto: "1 vaso de leche descremada tibia", tags: ["leche", "lacteo"] },
+    { texto: "2 nueces + infusión relajante sin azúcar", tags: ["nueces"] }
+  ]
+};
+
+/* ---------------------------------------------------------
+   2. UTILIDADES GENERALES
+   --------------------------------------------------------- */
+
+// Normaliza texto: minúsculas y sin tildes, para comparar de forma flexible
+function normalizarTexto(texto) {
+  return texto
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
+// Convierte el campo de texto "maní, mariscos" en un arreglo normalizado ["mani","mariscos"]
+function textoAArreglo(valor) {
+  if (!valor) return [];
+  return valor.split(",")
+    .map(item => normalizarTexto(item))
+    .filter(item => item.length > 0);
+}
+
+// Determina si una opción de comida debe excluirse por coincidir con alergias/disgustos
+function opcionExcluida(opcion, palabrasExcluidas) {
+  if (palabrasExcluidas.length === 0) return false;
+  const textoNormalizado = normalizarTexto(opcion.texto);
+  const tagsNormalizados = opcion.tags.map(t => normalizarTexto(t));
+  return palabrasExcluidas.some(palabra =>
+    textoNormalizado.includes(palabra) || tagsNormalizados.some(tag => tag.includes(palabra) || palabra.includes(tag))
+  );
+}
+
+// Elige la primera opción válida de una lista según las palabras a excluir.
+// Si todas están excluidas, devuelve un mensaje de respaldo seguro.
+function elegirOpcion(lista, palabrasExcluidas, indicePreferido) {
+  const total = lista.length;
+  for (let i = 0; i < total; i++) {
+    const opcion = lista[(indicePreferido + i) % total];
+    if (!opcionExcluida(opcion, palabrasExcluidas)) {
+      return opcion.texto;
     }
-    items.innerHTML = productos.map((p, i) => `
-      <div class="lista-item">
-        <span class="item-nombre">${p.nombre}</span>
-        <span class="item-num">${p.cantidad}</span>
-        <span class="item-precio">$${p.precio.toFixed(2)}</span>
-        <span class="item-subtotal">$${p.subtotal.toFixed(2)}</span>
-        <button class="btn-remove" onclick="eliminarProducto(${i})">&times;</button>
-      </div>`).join('');
-    document.getElementById('totalGeneral').textContent = '$' + calcTotal().toFixed(2);
+  }
+  return "Consulta con tu nutricionista para una alternativa segura según tus restricciones.";
+}
+
+// Formatea un número con separador de miles simple y sin decimales
+function formatearNumero(numero) {
+  return Math.round(numero).toLocaleString("es-ES");
+}
+
+/* ---------------------------------------------------------
+   3. CÁLCULOS NUTRICIONALES
+   --------------------------------------------------------- */
+
+const FACTORES_ACTIVIDAD = {
+  sedentario: 1.2,
+  ligero: 1.375,
+  moderado: 1.55,
+  intenso: 1.725,
+  muy_intenso: 1.9
+};
+
+const ETIQUETAS_ACTIVIDAD = {
+  sedentario: "Sedentario",
+  ligero: "Actividad ligera",
+  moderado: "Actividad moderada",
+  intenso: "Actividad intensa",
+  muy_intenso: "Actividad muy intensa"
+};
+
+function calcularIMC(pesoKg, estaturaCm) {
+  const estaturaM = estaturaCm / 100;
+  return pesoKg / (estaturaM * estaturaM);
+}
+
+function clasificarIMC(imc) {
+  if (imc < 18.5) return { texto: "Bajo peso", color: "#38BDF8" };
+  if (imc < 25) return { texto: "Peso normal", color: "#10B981" };
+  if (imc < 30) return { texto: "Sobrepeso", color: "#F59E0B" };
+  return { texto: "Obesidad", color: "#EF4444" };
+}
+
+function calcularPesoIdeal(estaturaCm) {
+  const estaturaM = estaturaCm / 100;
+  const minimo = 18.5 * estaturaM * estaturaM;
+  const maximo = 24.9 * estaturaM * estaturaM;
+  return { minimo, maximo };
+}
+
+// Tasa Metabólica Basal — Fórmula de Mifflin-St Jeor
+function calcularTMB(sexo, pesoKg, estaturaCm, edad) {
+  const base = 10 * pesoKg + 6.25 * estaturaCm - 5 * edad;
+  return sexo === "masculino" ? base + 5 : base - 161;
+}
+
+function calcularCaloriasObjetivo(tdee, objetivo) {
+  if (objetivo === "bajar") return tdee - 500;
+  if (objetivo === "ganar") return tdee + 400;
+  return tdee; // mantener
+}
+
+function calcularAgua(pesoKg, actividad) {
+  let mililitros = pesoKg * 35;
+  if (actividad === "intenso") mililitros += 400;
+  if (actividad === "muy_intenso") mililitros += 700;
+  return mililitros;
+}
+
+// Distribución de macronutrientes según el objetivo, en gramos por kg de peso corporal
+function calcularMacros(pesoKg, calorias, objetivo) {
+  let gProteinaPorKg, gGrasaPorKg;
+
+  if (objetivo === "bajar") { gProteinaPorKg = 2.0; gGrasaPorKg = 0.8; }
+  else if (objetivo === "ganar") { gProteinaPorKg = 2.2; gGrasaPorKg = 1.0; }
+  else { gProteinaPorKg = 1.6; gGrasaPorKg = 1.0; }
+
+  let proteinaG = gProteinaPorKg * pesoKg;
+  let grasaG = gGrasaPorKg * pesoKg;
+
+  let caloriasRestantes = calorias - (proteinaG * 4 + grasaG * 9);
+  if (caloriasRestantes < 0) caloriasRestantes = calorias * 0.35; // resguardo de seguridad
+
+  let carbohidratosG = caloriasRestantes / 4;
+
+  return {
+    proteinaG: Math.max(0, proteinaG),
+    grasaG: Math.max(0, grasaG),
+    carbohidratosG: Math.max(0, carbohidratosG)
+  };
+}
+
+/* ---------------------------------------------------------
+   4. RECOMENDACIONES PERSONALIZADAS
+   --------------------------------------------------------- */
+
+function generarRecomendaciones(datos, resultados) {
+  const recomendaciones = [];
+  const { edad, objetivo, actividad, enfermedades } = datos;
+
+  // Según edad
+  if (edad >= 50) {
+    recomendaciones.push("A partir de los 50 años, cuida tu ingesta de calcio y vitamina D para la salud ósea, e incluye proteína suficiente para preservar masa muscular.");
+  } else if (edad <= 18) {
+    recomendaciones.push("Al estar en etapa de crecimiento, es recomendable que este plan sea supervisado por un pediatra o nutricionista especializado.");
   }
 
-  function agregarProducto() {
-    const nombre = document.getElementById('sel-producto').value;
-    const cantidad = parseFloat(document.getElementById('sel-cantidad').value) || 1;
-    const precio = parseFloat(document.getElementById('sel-precio').value);
-    if (!nombre) { alert('Selecciona un producto.'); return; }
-    if (!precio || precio <= 0) { alert('Ingresa el precio unitario.'); return; }
-    const existente = productos.findIndex(p => p.nombre === nombre);
-    if (existente >= 0) {
-      productos[existente].cantidad += cantidad;
-      productos[existente].subtotal = productos[existente].cantidad * productos[existente].precio;
-    } else {
-      productos.push({ nombre, cantidad, precio, subtotal: cantidad * precio });
+  // Según objetivo
+  if (objetivo === "bajar") {
+    recomendaciones.push("Busca un déficit calórico moderado y sostenible: perder entre 0.5 y 1 kg por semana es un ritmo saludable y duradero.");
+  } else if (objetivo === "ganar") {
+    recomendaciones.push("Combina tu plan alimenticio con entrenamiento de fuerza progresivo para favorecer la ganancia de masa muscular y no solo de peso.");
+  } else {
+    recomendaciones.push("Mantén la constancia en horarios de comida y actividad física para conservar tu peso actual de forma estable.");
+  }
+
+  // Según actividad
+  if (actividad === "sedentario") {
+    recomendaciones.push("Intenta incorporar al menos 20-30 minutos de caminata diaria; pequeños cambios en tu actividad mejoran mucho tu metabolismo.");
+  } else if (actividad === "intenso" || actividad === "muy_intenso") {
+    recomendaciones.push("Con tu nivel de actividad, prioriza la recuperación: buen descanso, hidratación constante y carbohidratos alrededor del entrenamiento.");
+  }
+
+  // Según enfermedades
+  if (enfermedades.includes("diabetes")) {
+    recomendaciones.push("Fracciona tus comidas en porciones moderadas, prioriza alimentos de bajo índice glucémico y evita azúcares simples para mantener estable tu glucosa.");
+  }
+  if (enfermedades.includes("hipertension")) {
+    recomendaciones.push("Reduce el consumo de sodio (menos de 2000 mg/día), evita alimentos procesados y aumenta alimentos ricos en potasio como plátano y espinaca.");
+  }
+  if (enfermedades.includes("colesterol")) {
+    recomendaciones.push("Limita las grasas saturadas y trans; prioriza pescados grasos, aceite de oliva y fibra soluble (avena, legumbres) para mejorar tu perfil lipídico.");
+  }
+
+  // Según hidratación
+  recomendaciones.push(`Distribuye tu consumo de agua (aprox. ${formatearNumero(resultados.aguaMl)} ml) a lo largo del día; no esperes a sentir sed.`);
+
+  return recomendaciones;
+}
+
+/* ---------------------------------------------------------
+   5. VALIDACIÓN DEL FORMULARIO
+   --------------------------------------------------------- */
+
+function mostrarError(idCampo, idError, mensaje) {
+  const campo = document.getElementById(idCampo);
+  const error = document.getElementById(idError);
+  campo.classList.add("campo-invalido");
+  error.textContent = mensaje;
+}
+
+function limpiarError(idCampo, idError) {
+  document.getElementById(idCampo).classList.remove("campo-invalido");
+  document.getElementById(idError).textContent = "";
+}
+
+function validarFormulario() {
+  let esValido = true;
+
+  const nombre = document.getElementById("nombre").value.trim();
+  const edad = parseFloat(document.getElementById("edad").value);
+  const sexo = document.getElementById("sexo").value;
+  const peso = parseFloat(document.getElementById("peso").value);
+  const estatura = parseFloat(document.getElementById("estatura").value);
+  const actividad = document.getElementById("actividad").value;
+  const objetivo = document.getElementById("objetivo").value;
+
+  limpiarError("nombre", "errorNombre");
+  limpiarError("edad", "errorEdad");
+  limpiarError("sexo", "errorSexo");
+  limpiarError("peso", "errorPeso");
+  limpiarError("estatura", "errorEstatura");
+  limpiarError("actividad", "errorActividad");
+  limpiarError("objetivo", "errorObjetivo");
+
+  if (nombre.length < 2) {
+    mostrarError("nombre", "errorNombre", "Ingresa tu nombre (mínimo 2 caracteres).");
+    esValido = false;
+  }
+  if (isNaN(edad) || edad < 10 || edad > 100) {
+    mostrarError("edad", "errorEdad", "Ingresa una edad válida entre 10 y 100 años.");
+    esValido = false;
+  }
+  if (!sexo) {
+    mostrarError("sexo", "errorSexo", "Selecciona tu sexo biológico.");
+    esValido = false;
+  }
+  if (isNaN(peso) || peso < 20 || peso > 300) {
+    mostrarError("peso", "errorPeso", "Ingresa un peso válido entre 20 y 300 kg.");
+    esValido = false;
+  }
+  if (isNaN(estatura) || estatura < 100 || estatura > 250) {
+    mostrarError("estatura", "errorEstatura", "Ingresa una estatura válida entre 100 y 250 cm.");
+    esValido = false;
+  }
+  if (!actividad) {
+    mostrarError("actividad", "errorActividad", "Selecciona tu nivel de actividad física.");
+    esValido = false;
+  }
+  if (!objetivo) {
+    mostrarError("objetivo", "errorObjetivo", "Selecciona tu objetivo.");
+    esValido = false;
+  }
+
+  return esValido;
+}
+
+/* ---------------------------------------------------------
+   6. GRÁFICOS (Chart.js)
+   --------------------------------------------------------- */
+
+let graficoImcInstancia = null;
+let graficoCaloriasInstancia = null;
+let graficoMacrosInstancia = null;
+
+function obtenerColorTexto() {
+  return getComputedStyle(document.body).getPropertyValue("--texto").trim() || "#0F172A";
+}
+
+function dibujarGraficos(resultados) {
+  const colorTexto = obtenerColorTexto();
+  Chart.defaults.color = colorTexto;
+  Chart.defaults.font.family = "Inter, sans-serif";
+
+  // --- Gráfico 1: Clasificación de IMC (dona) ---
+  const ctxImc = document.getElementById("graficoImc").getContext("2d");
+  if (graficoImcInstancia) graficoImcInstancia.destroy();
+  graficoImcInstancia = new Chart(ctxImc, {
+    type: "doughnut",
+    data: {
+      labels: ["Bajo peso", "Normal", "Sobrepeso", "Obesidad"],
+      datasets: [{
+        data: [18.5, 6.4, 5, 10],
+        backgroundColor: ["#38BDF8", "#10B981", "#F59E0B", "#EF4444"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: "65%",
+      plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 10 } } } }
     }
-    document.getElementById('sel-producto').value = '';
-    document.getElementById('sel-cantidad').value = '1';
-    document.getElementById('sel-precio').value = '';
-    renderLista();
-  }
-
-  function eliminarProducto(i) { productos.splice(i, 1); renderLista(); }
-
-  function setStatus(type, msg) {
-    const el = document.getElementById("status");
-    el.className = "status " + type;
-    el.innerHTML = msg;
-  }
-
-  function abrirModal() {
-    const empleado  = document.getElementById("empleado").value.trim();
-    const nombre    = document.getElementById("nombre").value.trim();
-    const telefono  = document.getElementById("telefono").value.trim();
-    const fecha     = document.getElementById("fecha").value;
-    const direccion = document.getElementById("direccion").value.trim();
-    const notas     = document.getElementById("notas").value.trim();
-    if (!empleado || !nombre) { setStatus("error", "Completa el nombre del empleado y del cliente."); return; }
-    if (productos.length === 0) { setStatus("error", "Agrega al menos un producto al pedido."); return; }
-    const total = calcTotal();
-    dataPendiente = { empleado, nombre, telefono, fecha, direccion, notas, productos, total: total.toFixed(2) };
-    document.getElementById("m-empleado").textContent  = empleado;
-    document.getElementById("m-nombre").textContent    = nombre;
-    document.getElementById("m-telefono").textContent  = telefono || "-";
-    document.getElementById("m-direccion").textContent = direccion || "-";
-    document.getElementById("m-fecha").textContent     = fecha || "-";
-    document.getElementById("m-notas").textContent     = notas || "-";
-    document.getElementById("m-total").textContent     = "$" + total.toFixed(2);
-    document.getElementById("m-productos").innerHTML = productos.map(p => `
-      <tr>
-        <td>${p.nombre}</td>
-        <td style="text-align:center">${p.cantidad}</td>
-        <td style="text-align:right">$${p.precio.toFixed(2)}</td>
-        <td>$${p.subtotal.toFixed(2)}</td>
-      </tr>`).join('');
-    document.getElementById("modalOverlay").classList.add("open");
-    document.body.style.overflow = "hidden";
-  }
-
-  function cerrarModal() {
-    document.getElementById("modalOverlay").classList.remove("open");
-    document.body.style.overflow = "";
-    dataPendiente = null;
-  }
-
-  function enviarWhatsapp() {
-    if (!ultimoRegistro) return;
-    const d = ultimoRegistro;
-    let lineas = d.productos.map(p => `  - ${p.nombre}: ${p.cantidad} x $${p.precio.toFixed(2)} = $${p.subtotal.toFixed(2)}`).join('%0A');
-    const msg = `Estimada Zoila, se envia pedido de cliente:%0A%0A` +
-      `👤 *Cliente:* ${d.nombre}%0A` +
-      `📞 *Telefono:* ${d.telefono || '-'}%0A` +
-      `📍 *Direccion:* ${d.direccion || '-'}%0A` +
-      `📅 *Fecha:* ${d.fecha}%0A` +
-      `👷 *Empleado:* ${d.empleado}%0A%0A` +
-      `📦 *Productos:*%0A${lineas}%0A%0A` +
-      `💰 *TOTAL: $${d.total}*%0A` +
-      `📝 *Notas:* ${d.notas || '-'}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
-  }
-
-  async function confirmarEnvio() {
-    if (!dataPendiente) return;
-    const btn = document.getElementById("btnConfirmar");
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner"></div> Enviando...';
-
-    const fechaObj = dataPendiente.fecha ? new Date(dataPendiente.fecha + 'T00:00:00') : new Date();
-    const dia = fechaObj.getDate();
-    const mes = fechaObj.getMonth() + 1;
-
-    const productosTexto = dataPendiente.productos.map(p =>
-      `${p.nombre} (${p.cantidad} x $${p.precio.toFixed(2)} = $${p.subtotal.toFixed(2)})`).join(' | ');
-
-    const payload = {
-      dia,
-      mes,
-      empleado: dataPendiente.empleado,
-      nombre: dataPendiente.nombre,
-      telefono: dataPendiente.telefono,
-      fecha: dataPendiente.fecha,
-      direccion: dataPendiente.direccion,
-      notas: dataPendiente.notas,
-      productos: productosTexto,
-      total: dataPendiente.total
-    };
-
-    try {
-      await fetch(SCRIPT_URL, {
-        method: "POST", mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      ultimoRegistro = { ...dataPendiente };
-      cerrarModal();
-      setStatus("success", "✓ Pedido guardado correctamente en Google Drive!");
-      document.getElementById("btnWhatsapp").classList.add("visible");
-      document.getElementById("btnPdf").classList.add("visible");
-      ["empleado","nombre","telefono","direccion","notas"].forEach(id => document.getElementById(id).value = "");
-      productos = [];
-      renderLista();
-      const hoy = new Date();
-      const yyyy = hoy.getFullYear();
-      const mm = String(hoy.getMonth()+1).padStart(2,'0');
-      const dd = String(hoy.getDate()).padStart(2,'0');
-      document.getElementById('fecha').value = yyyy+'-'+mm+'-'+dd;
-    } catch(err) {
-      cerrarModal();
-      setStatus("error", "Error de conexion. Intenta de nuevo.");
-    }
-    btn.disabled = false;
-    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Confirmar y guardar';
-    dataPendiente = null;
-  }
-
-  document.getElementById("modalOverlay").addEventListener("click", function(e) {
-    if (e.target === this) cerrarModal();
   });
 
-  renderLista();
-
-  // ADMIN
-  const DEFAULT_EMPLEADOS = ["RUTA1 JEFFERSON","RUTA2 LUIS","RUTA3 VICENTE","RUTA4 WILSON","RUTA5 LISTER"];
-  const DEFAULT_PRODUCTOS = ["BOTELLON 20LT","BOTELLON CON LLAVE","PACA 625ML AZUL","PACA 600ML VERDE","PACA 1000ML","PACA 400ML","GALONES 4LT","POMA 5LTS","ENVASE CON LLAVE","ENVASE AZUL ADICIONAL"];
-  const APP_VERSION = "v3";
-  if (localStorage.getItem('aqua_version') !== APP_VERSION) {
-    localStorage.removeItem('aqua_empleados');
-    localStorage.removeItem('aqua_productos');
-    localStorage.setItem('aqua_version', APP_VERSION);
-  }
-  function getEmpleados(){try{return JSON.parse(localStorage.getItem('aqua_empleados'))||DEFAULT_EMPLEADOS;}catch(e){return DEFAULT_EMPLEADOS;}}
-  function getProductos(){try{return JSON.parse(localStorage.getItem('aqua_productos'))||DEFAULT_PRODUCTOS;}catch(e){return DEFAULT_PRODUCTOS;}}
-  function saveEmpleados(l){localStorage.setItem('aqua_empleados',JSON.stringify(l));}
-  function saveProductos(l){localStorage.setItem('aqua_productos',JSON.stringify(l));}
-  function renderAdminEmpleados(){
-    const lista=getEmpleados();
-    const s=document.getElementById('sup-empleado');
-    if(s){s.innerHTML='<option value="">-- Selecciona empleado --</option>';lista.forEach(e=>{const o=document.createElement('option');o.value=e;o.textContent=e;s.appendChild(o);});}
-    const al=document.getElementById('admin-empleados-list');
-    if(al)al.innerHTML=lista.map((e,i)=>'<span class="admin-tag">'+e+'<button class="remove-tag" onclick="eliminarEmpleado('+i+')">x</button></span>').join('');
-  }
-  function renderAdminProductos(){
-    const lista=getProductos();
-    const sp=document.getElementById('sel-producto');
-    if(sp){sp.innerHTML='<option value="">-- Selecciona --</option>';lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;sp.appendChild(o);});}
-    const ssp=document.getElementById('sup-sel-producto');
-    if(ssp){ssp.innerHTML='<option value="">-- Selecciona --</option>';lista.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;ssp.appendChild(o);});}
-    const al=document.getElementById('admin-productos-list');
-    if(al)al.innerHTML=lista.map((p,i)=>'<span class="admin-tag">'+p+'<button class="remove-tag" onclick="eliminarProductoAdmin('+i+')">x</button></span>').join('');
-  }
-  function agregarEmpleado(){const inp=document.getElementById('nuevo-empleado');const n=inp.value.trim();if(!n){alert('Escribe el nombre.');return;}const l=getEmpleados();if(l.includes(n)){alert('Ya existe.');return;}l.push(n);saveEmpleados(l);renderAdminEmpleados();inp.value='';}
-  function eliminarEmpleado(i){const l=getEmpleados();if(!confirm('Eliminar a '+l[i]+'?'))return;l.splice(i,1);saveEmpleados(l);renderAdminEmpleados();}
-  function agregarProductoAdmin(){const inp=document.getElementById('nuevo-producto');const n=inp.value.trim().toUpperCase();if(!n){alert('Escribe el nombre.');return;}const l=getProductos();if(l.includes(n)){alert('Ya existe.');return;}l.push(n);saveProductos(l);renderAdminProductos();inp.value='';}
-  function eliminarProductoAdmin(i){const l=getProductos();if(!confirm('Eliminar '+l[i]+'?'))return;l.splice(i,1);saveProductos(l);renderAdminProductos();}
-
-  // SUPERVISOR
-  let supProductos=[],supDataPendiente=null,supUltimoRegistro=null;
-  function abrirSupLogin(){document.getElementById('supLoginOverlay').classList.add('open');setTimeout(()=>document.getElementById('supClave').focus(),100);}
-  function cerrarSupLogin(){document.getElementById('supLoginOverlay').classList.remove('open');document.getElementById('supClave').value='';document.getElementById('supLoginError').classList.remove('show');}
-  function doSupLogin(){const c=document.getElementById('supClave').value;if(c==='1234'){cerrarSupLogin();abrirSupPanel();}else{document.getElementById('supLoginError').classList.add('show');document.getElementById('supClave').value='';}}
-  function abrirSupPanel(){
-    document.getElementById('supPanelOverlay').classList.add('open');
-    document.body.style.overflow='hidden';
-    const hoy=new Date();
-    document.getElementById('supFechaHoy').textContent=hoy.toLocaleDateString('es-EC',{weekday:'long',day:'numeric',month:'long'});
-    document.getElementById('sup-fecha').value=hoy.getFullYear()+'-'+String(hoy.getMonth()+1).padStart(2,'0')+'-'+String(hoy.getDate()).padStart(2,'0');
-    renderAdminEmpleados();renderAdminProductos();
-  }
-  function cerrarSupPanel(){document.getElementById('supPanelOverlay').classList.remove('open');document.body.style.overflow='';}
-  function guardarYSalir(){
-    renderAdminEmpleados();
-    renderAdminProductos();
-    cerrarSupPanel();
-    // Mostrar confirmacion breve
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1a3a5c;color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.2)';
-    toast.textContent = '✓ Cambios guardados correctamente';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
-  }
-  function supCalcTotal(){return supProductos.reduce((s,p)=>s+p.subtotal,0);}
-  function supRenderLista(){
-    const items=document.getElementById('supProductosItems');
-    const lista=document.getElementById('supProductosLista');
-    const em=document.getElementById('supEmptyMsg');
-    if(supProductos.length===0){lista.classList.add('empty');em.style.display='block';}
-    else{lista.classList.remove('empty');em.style.display='none';}
-    items.innerHTML=supProductos.map((p,i)=>'<div class="lista-item"><span class="item-nombre">'+p.nombre+'</span><span class="item-num">'+p.cantidad+'</span><span class="item-precio">$'+p.precio.toFixed(2)+'</span><span class="item-subtotal">$'+p.subtotal.toFixed(2)+'</span><button class="btn-remove" onclick="supEliminarProducto('+i+')">&times;</button></div>').join('');
-    document.getElementById('supTotalGeneral').textContent='$'+supCalcTotal().toFixed(2);
-  }
-  function supAgregarProducto(){
-    const nombre=document.getElementById('sup-sel-producto').value;
-    const cantidad=parseFloat(document.getElementById('sup-sel-cantidad').value)||1;
-    const precio=parseFloat(document.getElementById('sup-sel-precio').value);
-    if(!nombre){alert('Selecciona un producto.');return;}
-    if(!precio||precio<=0){alert('Ingresa el precio.');return;}
-    const ex=supProductos.findIndex(p=>p.nombre===nombre);
-    if(ex>=0){supProductos[ex].cantidad+=cantidad;supProductos[ex].subtotal=supProductos[ex].cantidad*supProductos[ex].precio;}
-    else{supProductos.push({nombre,cantidad,precio,subtotal:cantidad*precio});}
-    document.getElementById('sup-sel-producto').value='';
-    document.getElementById('sup-sel-cantidad').value='1';
-    document.getElementById('sup-sel-precio').value='';
-    supRenderLista();
-  }
-  function supEliminarProducto(i){supProductos.splice(i,1);supRenderLista();}
-  function supSetStatus(type,msg){const el=document.getElementById('sup-status');el.className='status '+type;el.innerHTML=msg;}
-  function supAbrirModal(){
-    const empleado=document.getElementById('sup-empleado').value;
-    const nombre=document.getElementById('sup-nombre').value.trim();
-    const telefono=document.getElementById('sup-telefono').value.trim();
-    const fecha=document.getElementById('sup-fecha').value;
-    const direccion=document.getElementById('sup-direccion').value.trim();
-    const notas=document.getElementById('sup-notas').value.trim();
-    if(!empleado||!nombre){supSetStatus('error','Completa el empleado y nombre del cliente.');return;}
-    if(supProductos.length===0){supSetStatus('error','Agrega al menos un producto.');return;}
-    const total=supCalcTotal();
-    supDataPendiente={empleado,nombre,telefono,fecha,direccion,notas,productos:supProductos,total:total.toFixed(2)};
-    document.getElementById('sup-m-empleado').textContent=empleado;
-    document.getElementById('sup-m-nombre').textContent=nombre;
-    document.getElementById('sup-m-telefono').textContent=telefono||'-';
-    document.getElementById('sup-m-direccion').textContent=direccion||'-';
-    document.getElementById('sup-m-fecha').textContent=fecha||'-';
-    document.getElementById('sup-m-notas').textContent=notas||'-';
-    document.getElementById('sup-m-total').textContent='$'+total.toFixed(2);
-    document.getElementById('sup-m-productos').innerHTML=supProductos.map(p=>'<tr><td>'+p.nombre+'</td><td style="text-align:center">'+p.cantidad+'</td><td style="text-align:right">$'+p.precio.toFixed(2)+'</td><td>$'+p.subtotal.toFixed(2)+'</td></tr>').join('');
-    document.getElementById('supModalOverlay').classList.add('open');
-  }
-  function supCerrarModal(){document.getElementById('supModalOverlay').classList.remove('open');supDataPendiente=null;}
-  function supEnviarWhatsapp(){
-    if(!supUltimoRegistro)return;
-    const d=supUltimoRegistro;
-    let lineas=d.productos.map(p=>'  - '+p.nombre+': '+p.cantidad+' x $'+p.precio.toFixed(2)+' = $'+p.subtotal.toFixed(2)).join('%0A');
-    const msg='Estimada Zoila, pedido SUPERVISOR:%0A%0A'+encodeURIComponent('👤 Cliente: '+d.nombre+'\n📞 Tel: '+(d.telefono||'-')+'\n📍 Dir: '+(d.direccion||'-')+'\n📅 Fecha: '+d.fecha+'\n👷 Empleado: '+d.empleado);
-    window.open('https://wa.me/'+WHATSAPP_NUMBER+'?text='+msg,'_blank');
-  }
-  async function supConfirmarEnvio(){
-    if(!supDataPendiente)return;
-    const btn=document.getElementById('supBtnConfirmar');
-    btn.disabled=true;btn.innerHTML='<div class="spinner"></div> Enviando...';
-    const fechaObj=supDataPendiente.fecha?new Date(supDataPendiente.fecha+'T00:00:00'):new Date();
-    const dia=fechaObj.getDate(),mes=fechaObj.getMonth()+1;
-    const productosTexto=supDataPendiente.productos.map(p=>p.nombre+' ('+p.cantidad+' x $'+p.precio.toFixed(2)+' = $'+p.subtotal.toFixed(2)+')').join(' | ');
-    const payload={dia,mes,empleado:supDataPendiente.empleado,nombre:supDataPendiente.nombre,telefono:supDataPendiente.telefono,fecha:supDataPendiente.fecha,direccion:supDataPendiente.direccion,notas:supDataPendiente.notas,productos:productosTexto,total:supDataPendiente.total};
-    try{
-      await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-      supUltimoRegistro={...supDataPendiente};
-      supCerrarModal();
-      supSetStatus('success','Pedido guardado en Google Drive!');
-      document.getElementById('supBtnWhatsapp').style.display='flex';
-      ['sup-nombre','sup-telefono','sup-direccion','sup-notas'].forEach(id=>document.getElementById(id).value='');
-      document.getElementById('sup-empleado').value='';
-      supProductos=[];supRenderLista();
-      const hoy=new Date();
-      document.getElementById('sup-fecha').value=hoy.getFullYear()+'-'+String(hoy.getMonth()+1).padStart(2,'0')+'-'+String(hoy.getDate()).padStart(2,'0');
-    }catch(err){supCerrarModal();supSetStatus('error','Error de conexion.');}
-    btn.disabled=false;btn.innerHTML='Confirmar y guardar';supDataPendiente=null;
-  }
-  document.getElementById('supModalOverlay').addEventListener('click',function(e){if(e.target===this)supCerrarModal();});
-  renderAdminEmpleados();
-  renderAdminProductos();
-  supRenderLista();
-
-  function doLogin() {
-    const user = document.getElementById('loginUser').value.trim();
-    const pass = document.getElementById('loginPass').value;
-    if (user === 'admin' && pass === '1234') {
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('loginError').classList.remove('show');
-    } else {
-      document.getElementById('loginError').classList.add('show');
-      document.getElementById('loginPass').value = '';
-      document.getElementById('loginPass').focus();
+  // --- Gráfico 2: Calorías (barra: TMB vs Mantenimiento vs Objetivo) ---
+  const ctxCal = document.getElementById("graficoCalorias").getContext("2d");
+  if (graficoCaloriasInstancia) graficoCaloriasInstancia.destroy();
+  graficoCaloriasInstancia = new Chart(ctxCal, {
+    type: "bar",
+    data: {
+      labels: ["TMB (reposo)", "Mantenimiento", "Tu objetivo"],
+      datasets: [{
+        label: "Calorías (kcal)",
+        data: [Math.round(resultados.tmb), Math.round(resultados.tdee), Math.round(resultados.caloriasObjetivo)],
+        backgroundColor: ["#38BDF8", "#2563EB", "#10B981"],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: "rgba(148,163,184,.2)" } }, x: { grid: { display: false } } }
     }
+  });
+
+  // --- Gráfico 3: Macronutrientes (dona) ---
+  const ctxMacros = document.getElementById("graficoMacros").getContext("2d");
+  if (graficoMacrosInstancia) graficoMacrosInstancia.destroy();
+  graficoMacrosInstancia = new Chart(ctxMacros, {
+    type: "doughnut",
+    data: {
+      labels: ["Proteínas", "Carbohidratos", "Grasas"],
+      datasets: [{
+        data: [
+          Math.round(resultados.macros.proteinaG * 4),
+          Math.round(resultados.macros.carbohidratosG * 4),
+          Math.round(resultados.macros.grasaG * 9)
+        ],
+        backgroundColor: ["#2563EB", "#10B981", "#F59E0B"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: "60%",
+      plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 10 } } } }
+    }
+  });
+}
+
+/* ---------------------------------------------------------
+   7. RENDERIZADO DE RESULTADOS EN EL DOM
+   --------------------------------------------------------- */
+
+function renderizarIndicadores(datos, resultados) {
+  document.getElementById("nombreUsuario").textContent = datos.nombre;
+  document.getElementById("fechaReporte").textContent = new Date().toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" });
+
+  // Dial de IMC: mapeamos el IMC (rango visual 15-40) a un ángulo de aguja (-90° a 90°)
+  const imcClamp = Math.min(Math.max(resultados.imc, 15), 40);
+  const angulo = ((imcClamp - 15) / (40 - 15)) * 180 - 90;
+  document.getElementById("agujaImc").style.transform = `translateX(-50%) rotate(${angulo}deg)`;
+  document.getElementById("valorImc").textContent = resultados.imc.toFixed(1);
+
+  const clasificacion = clasificarIMC(resultados.imc);
+  const elementoClasificacion = document.getElementById("clasificacionImc");
+  elementoClasificacion.textContent = clasificacion.texto;
+  elementoClasificacion.style.color = clasificacion.color;
+  elementoClasificacion.style.background = clasificacion.color + "22";
+
+  document.getElementById("pesoIdeal").textContent =
+    `${resultados.pesoIdeal.minimo.toFixed(1)} - ${resultados.pesoIdeal.maximo.toFixed(1)} kg`;
+
+  document.getElementById("tmb").textContent = `${formatearNumero(resultados.tmb)} kcal`;
+
+  document.getElementById("caloriasDiarias").textContent = `${formatearNumero(resultados.caloriasObjetivo)} kcal`;
+  document.getElementById("detalleCalorias").textContent =
+    `${ETIQUETAS_ACTIVIDAD[datos.actividad]} · Gasto total: ${formatearNumero(resultados.tdee)} kcal`;
+
+  document.getElementById("aguaRecomendada").textContent = `${(resultados.aguaMl / 1000).toFixed(1)} L`;
+
+  // Macronutrientes + barras de progreso
+  const { proteinaG, carbohidratosG, grasaG } = resultados.macros;
+  const totalGramos = proteinaG + carbohidratosG + grasaG;
+
+  document.getElementById("valorProteina").textContent = `${Math.round(proteinaG)} g`;
+  document.getElementById("valorCarbohidratos").textContent = `${Math.round(carbohidratosG)} g`;
+  document.getElementById("valorGrasas").textContent = `${Math.round(grasaG)} g`;
+
+  // Pequeño retardo para permitir la transición CSS de las barras
+  requestAnimationFrame(() => {
+    document.getElementById("barraProteina").style.width = `${(proteinaG / totalGramos) * 100}%`;
+    document.getElementById("barraCarbohidratos").style.width = `${(carbohidratosG / totalGramos) * 100}%`;
+    document.getElementById("barraGrasas").style.width = `${(grasaG / totalGramos) * 100}%`;
+  });
+}
+
+function renderizarPlanComidas(datos, resultados) {
+  const palabrasExcluidas = [...datos.alergias, ...datos.noGustan];
+  const calorias = resultados.caloriasObjetivo;
+
+  // Semilla simple para variar ligeramente las combinaciones según los datos del usuario
+  const semilla = Math.round(datos.edad + datos.peso);
+
+  const estructura = [
+    { id: "desayuno", icono: "🌅", titulo: "Desayuno", porcentaje: 0.25, lista: PLAN_COMIDAS.desayuno },
+    { id: "snackManana", icono: "🍎", titulo: "Snack de la mañana", porcentaje: 0.10, lista: PLAN_COMIDAS.snackManana },
+    { id: "almuerzo", icono: "🍽️", titulo: "Almuerzo", porcentaje: 0.30, lista: PLAN_COMIDAS.almuerzo },
+    { id: "snackTarde", icono: "🥜", titulo: "Snack de la tarde", porcentaje: 0.10, lista: PLAN_COMIDAS.snackTarde },
+    { id: "cena", icono: "🌙", titulo: "Cena", porcentaje: 0.20, lista: PLAN_COMIDAS.cena },
+    { id: "snackNocturno", icono: "🌜", titulo: "Snack nocturno (opcional)", porcentaje: 0.05, lista: PLAN_COMIDAS.snackNocturno }
+  ];
+
+  const contenedor = document.getElementById("rejillaComidas");
+  contenedor.innerHTML = "";
+
+  estructura.forEach((comida, indice) => {
+    const kcalObjetivo = Math.round(calorias * comida.porcentaje);
+    const descripcion = elegirOpcion(comida.lista, palabrasExcluidas, semilla + indice);
+
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjeta-comida";
+    tarjeta.innerHTML = `
+      <h4>${comida.icono} ${comida.titulo} <span class="kcal-objetivo">~${kcalObjetivo} kcal</span></h4>
+      <p>${descripcion}</p>
+    `;
+    contenedor.appendChild(tarjeta);
+  });
+}
+
+function renderizarListaAlimentos(idLista, elementos) {
+  const lista = document.getElementById(idLista);
+  lista.innerHTML = elementos.map(item => `<li>${item}</li>`).join("");
+}
+
+function renderizarGuiaAlimentos(datos) {
+  const palabrasExcluidas = [...datos.alergias, ...datos.noGustan];
+
+  const filtrar = (arreglo) => arreglo.filter(item => !palabrasExcluidas.some(p => normalizarTexto(item).includes(p)));
+
+  renderizarListaAlimentos("listaFrutas", filtrar(BASE_FRUTAS));
+  renderizarListaAlimentos("listaVerduras", filtrar(BASE_VERDURAS));
+  renderizarListaAlimentos("listaProteinas", filtrar(BASE_PROTEINAS));
+  renderizarListaAlimentos("listaGrasasBuenas", filtrar(BASE_GRASAS));
+
+  // Lista de alimentos a evitar: base + condicionados por enfermedad
+  let evitar = [...BASE_EVITAR];
+  if (datos.enfermedades.includes("diabetes")) evitar.push("Azúcar refinada y postres muy dulces", "Jugos envasados");
+  if (datos.enfermedades.includes("hipertension")) evitar.push("Sal en exceso y salsas industriales", "Enlatados con alto sodio");
+  if (datos.enfermedades.includes("colesterol")) evitar.push("Grasas trans y manteca", "Carnes muy grasosas");
+  renderizarListaAlimentos("listaEvitar", evitar);
+}
+
+function renderizarRecomendaciones(datos, resultados) {
+  const recomendaciones = generarRecomendaciones(datos, resultados);
+  const lista = document.getElementById("listaRecomendaciones");
+  lista.innerHTML = recomendaciones.map(texto => `<li>${texto}</li>`).join("");
+}
+
+/* ---------------------------------------------------------
+   8. FLUJO PRINCIPAL
+   --------------------------------------------------------- */
+
+function recopilarDatosFormulario() {
+  const enfermedadesSeleccionadas = Array.from(document.querySelectorAll('input[name="enfermedad"]:checked'))
+    .map(chk => chk.value)
+    .filter(valor => valor !== "ninguna");
+
+  return {
+    nombre: document.getElementById("nombre").value.trim(),
+    edad: parseFloat(document.getElementById("edad").value),
+    sexo: document.getElementById("sexo").value,
+    peso: parseFloat(document.getElementById("peso").value),
+    estatura: parseFloat(document.getElementById("estatura").value),
+    actividad: document.getElementById("actividad").value,
+    objetivo: document.getElementById("objetivo").value,
+    enfermedades: enfermedadesSeleccionadas,
+    alergias: textoAArreglo(document.getElementById("alergias").value),
+    noGustan: textoAArreglo(document.getElementById("noGustan").value)
+  };
+}
+
+function calcularResultados(datos) {
+  const imc = calcularIMC(datos.peso, datos.estatura);
+  const pesoIdeal = calcularPesoIdeal(datos.estatura);
+  const tmb = calcularTMB(datos.sexo, datos.peso, datos.estatura, datos.edad);
+  const tdee = tmb * FACTORES_ACTIVIDAD[datos.actividad];
+  const caloriasObjetivo = calcularCaloriasObjetivo(tdee, datos.objetivo);
+  const aguaMl = calcularAgua(datos.peso, datos.actividad);
+  const macros = calcularMacros(datos.peso, caloriasObjetivo, datos.objetivo);
+
+  return { imc, pesoIdeal, tmb, tdee, caloriasObjetivo, aguaMl, macros };
+}
+
+function manejarEnvioFormulario(evento) {
+  evento.preventDefault();
+  if (!validarFormulario()) {
+    // Desplaza la vista al primer campo con error para orientar al usuario
+    const primerError = document.querySelector(".campo-invalido");
+    if (primerError) primerError.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
   }
+
+  const datos = recopilarDatosFormulario();
+  const resultados = calcularResultados(datos);
+
+  renderizarIndicadores(datos, resultados);
+  renderizarPlanComidas(datos, resultados);
+  renderizarGuiaAlimentos(datos);
+  renderizarRecomendaciones(datos, resultados);
+  dibujarGraficos(resultados);
+
+  const seccionResultados = document.getElementById("seccionResultados");
+  seccionResultados.classList.remove("oculto");
+  seccionResultados.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function limpiarFormulario() {
+  document.getElementById("formNutricion").reset();
+  document.getElementById("chkNinguna").checked = true;
+  document.querySelectorAll(".campo-invalido").forEach(el => el.classList.remove("campo-invalido"));
+  document.querySelectorAll(".mensaje-error").forEach(el => el.textContent = "");
+  document.getElementById("seccionResultados").classList.add("oculto");
+}
+
+/* ---------------------------------------------------------
+   9. CHECKBOX "NINGUNA" EXCLUSIVO
+   --------------------------------------------------------- */
+
+function configurarCheckboxEnfermedades() {
+  const checks = document.querySelectorAll('input[name="enfermedad"]');
+  const chkNinguna = document.getElementById("chkNinguna");
+
+  checks.forEach(chk => {
+    chk.addEventListener("change", () => {
+      if (chk === chkNinguna && chk.checked) {
+        checks.forEach(otro => { if (otro !== chkNinguna) otro.checked = false; });
+      } else if (chk !== chkNinguna && chk.checked) {
+        chkNinguna.checked = false;
+      } else if (chk !== chkNinguna) {
+        const algunaMarcada = Array.from(checks).some(c => c !== chkNinguna && c.checked);
+        if (!algunaMarcada) chkNinguna.checked = true;
+      }
+    });
+  });
+}
+
+/* ---------------------------------------------------------
+   10. MODO OSCURO
+   --------------------------------------------------------- */
+
+function configurarModoOscuro() {
+  const boton = document.getElementById("btnTema");
+  const icono = document.getElementById("iconoTema");
+
+  const preferenciaGuardada = localStorage.getItem("nutricionista-tema");
+  if (preferenciaGuardada === "dark") {
+    document.body.setAttribute("data-theme", "dark");
+    icono.textContent = "☀️";
+  }
+
+  boton.addEventListener("click", () => {
+    const esOscuro = document.body.getAttribute("data-theme") === "dark";
+    if (esOscuro) {
+      document.body.removeAttribute("data-theme");
+      icono.textContent = "🌙";
+      localStorage.setItem("nutricionista-tema", "light");
+    } else {
+      document.body.setAttribute("data-theme", "dark");
+      icono.textContent = "☀️";
+      localStorage.setItem("nutricionista-tema", "dark");
+    }
+    // Si ya hay gráficos dibujados, se redibujan para adaptar el color de texto
+    if (graficoImcInstancia) {
+      const resultadosActuales = window.__ultimosResultados;
+      if (resultadosActuales) dibujarGraficos(resultadosActuales);
+    }
+  });
+}
+
+/* ---------------------------------------------------------
+   11. IMPRESIÓN Y EXPORTACIÓN A PDF
+   --------------------------------------------------------- */
+
+function configurarImpresion() {
+  document.getElementById("btnImprimir").addEventListener("click", () => window.print());
+}
+
+// Genera el documento PDF a partir del contenido del reporte y lo devuelve junto con su nombre de archivo.
+// Se reutiliza tanto para la descarga directa como para el envío por WhatsApp.
+async function generarDocumentoPDF() {
+  const elemento = document.getElementById("contenidoImprimible");
+  const lienzo = await html2canvas(elemento, {
+    scale: 2,
+    backgroundColor: getComputedStyle(document.body).getPropertyValue("--fondo") || "#ffffff",
+    useCORS: true,
+    // html2canvas clona el contenido en un documento aparte para "fotografiarlo"; eso reinicia
+    // las animaciones CSS (como la aparición de las tarjetas) y la captura puede tomarse a mitad
+    // de esa animación, dando un resultado opaco/lavado. Aquí forzamos que en la copia clonada
+    // todo se muestre ya "asentado": sin animaciones, sin transiciones y con opacidad completa.
+    onclone: (documentoClonado) => {
+      const estiloForzado = documentoClonado.createElement("style");
+      estiloForzado.textContent = `
+        *, *::before, *::after {
+          animation: none !important;
+          transition: none !important;
+          opacity: 1 !important;
+        }
+      `;
+      documentoClonado.head.appendChild(estiloForzado);
+    }
+  });
+
+  const imagenDatos = lienzo.toDataURL("image/jpeg", 0.95);
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const anchoPagina = pdf.internal.pageSize.getWidth();
+  const altoPagina = pdf.internal.pageSize.getHeight();
+  const anchoImagen = anchoPagina;
+  const altoImagen = (lienzo.height * anchoImagen) / lienzo.width;
+
+  let alturaRestante = altoImagen;
+  let posicionY = 0;
+
+  // Si el contenido es más alto que una página, se reparte en varias páginas
+  pdf.addImage(imagenDatos, "JPEG", 0, posicionY, anchoImagen, altoImagen);
+  alturaRestante -= altoPagina;
+
+  while (alturaRestante > 0) {
+    posicionY = alturaRestante - altoImagen;
+    pdf.addPage();
+    pdf.addImage(imagenDatos, "JPEG", 0, posicionY, anchoImagen, altoImagen);
+    alturaRestante -= altoPagina;
+  }
+
+  const nombreArchivo = `ElhyAI_Nutricion_Plan_${(document.getElementById("nombreUsuario").textContent || "usuario").replace(/\s+/g, "_")}.pdf`;
+  return { pdf, nombreArchivo };
+}
+
+function configurarDescargaPDF() {
+  document.getElementById("btnPDF").addEventListener("click", async () => {
+    const boton = document.getElementById("btnPDF");
+    const textoOriginal = boton.innerHTML;
+    boton.innerHTML = "<span>⏳</span> Generando PDF...";
+    boton.disabled = true;
+
+    try {
+      const { pdf, nombreArchivo } = await generarDocumentoPDF();
+      pdf.save(nombreArchivo);
+    } catch (error) {
+      console.error("Error al generar el PDF:", error);
+      alert("No se pudo generar el PDF. Intenta nuevamente o usa la opción de imprimir.");
+    } finally {
+      boton.innerHTML = textoOriginal;
+      boton.disabled = false;
+    }
+  });
+}
+
+// Construye un resumen en texto plano del plan, usado como respaldo cuando no se puede compartir el PDF directamente
+function construirResumenTextoWhatsapp() {
+  const nombre = document.getElementById("nombreUsuario").textContent || "";
+  const imc = document.getElementById("valorImc").textContent;
+  const clasificacion = document.getElementById("clasificacionImc").textContent;
+  const calorias = document.getElementById("caloriasDiarias").textContent;
+  const agua = document.getElementById("aguaRecomendada").textContent;
+  const proteina = document.getElementById("valorProteina").textContent;
+  const carbohidratos = document.getElementById("valorCarbohidratos").textContent;
+  const grasas = document.getElementById("valorGrasas").textContent;
+
+  return (
+    `🥗 *ElhyAI Nutrición* — Plan de ${nombre}\n\n` +
+    `📊 IMC: ${imc} (${clasificacion})\n` +
+    `🍽️ Calorías diarias: ${calorias}\n` +
+    `💧 Agua recomendada: ${agua}\n` +
+    `🥩 Proteínas: ${proteina} · 🍞 Carbohidratos: ${carbohidratos} · 🥑 Grasas: ${grasas}\n\n` +
+    `Genera tu plan completo con ElhyAI Nutrición.`
+  );
+}
+
+function configurarWhatsapp() {
+  document.getElementById("btnWhatsapp").addEventListener("click", async () => {
+    const boton = document.getElementById("btnWhatsapp");
+    const textoOriginal = boton.innerHTML;
+    boton.innerHTML = "<span>⏳</span> Preparando envío...";
+    boton.disabled = true;
+
+    try {
+      // 1) Intento preferido: compartir el PDF directamente usando la Web Share API (funciona en la mayoría de móviles)
+      const { pdf, nombreArchivo } = await generarDocumentoPDF();
+      const blobPDF = pdf.output("blob");
+      const archivoPDF = new File([blobPDF], nombreArchivo, { type: "application/pdf" });
+
+      if (navigator.canShare && navigator.canShare({ files: [archivoPDF] })) {
+        await navigator.share({
+          files: [archivoPDF],
+          title: "ElhyAI Nutrición",
+          text: "Aquí está mi plan de alimentación personalizado, generado con ElhyAI Nutrición."
+        });
+        return;
+      }
+
+      // 2) Respaldo: abrir WhatsApp con un resumen en texto (el usuario elige el contacto y adjunta el PDF manualmente)
+      const resumen = construirResumenTextoWhatsapp();
+      const enlaceWhatsapp = `https://api.whatsapp.com/send?text=${encodeURIComponent(resumen)}`;
+      window.open(enlaceWhatsapp, "_blank");
+    } catch (error) {
+      // Si el usuario cancela el diálogo de compartir, no se muestra error
+      if (error && error.name === "AbortError") return;
+      console.error("Error al enviar por WhatsApp:", error);
+      alert("No se pudo compartir el PDF automáticamente. Se abrirá WhatsApp con un resumen de tu plan.");
+      const resumen = construirResumenTextoWhatsapp();
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(resumen)}`, "_blank");
+    } finally {
+      boton.innerHTML = textoOriginal;
+      boton.disabled = false;
+    }
+  });
+}
+
+/* ---------------------------------------------------------
+   12. INICIALIZACIÓN
+   --------------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  configurarModoOscuro();
+  configurarCheckboxEnfermedades();
+  configurarImpresion();
+  configurarDescargaPDF();
+  configurarWhatsapp();
+
+  document.getElementById("formNutricion").addEventListener("submit", manejarEnvioFormulario);
+  document.getElementById("btnLimpiar").addEventListener("click", limpiarFormulario);
+});
+
+// Guardamos los últimos resultados calculados para poder redibujar los gráficos al cambiar de tema
+const _renderizarIndicadoresOriginal = renderizarIndicadores;
+renderizarIndicadores = function (datos, resultados) {
+  window.__ultimosResultados = resultados;
+  _renderizarIndicadoresOriginal(datos, resultados);
+};
 
 </script>
-
-<!-- RECIBO PARA IMPRIMIR -->
-<div id="reciboImprimir">
-  <div class="recibo-header">
-    <div class="recibo-logo-text">AQUA <span>LUAN</span></div>
-    <div class="recibo-sub">Registro de Pedidos</div>
-    <div class="recibo-num" id="r-num"></div>
-  </div>
-  <div class="recibo-section">
-    <div class="recibo-section-title">Datos del cliente</div>
-    <div class="recibo-row"><span class="label">Cliente</span><span class="value" id="r-nombre"></span></div>
-    <div class="recibo-row"><span class="label">Telefono</span><span class="value" id="r-telefono"></span></div>
-    <div class="recibo-row"><span class="label">Direccion</span><span class="value" id="r-direccion"></span></div>
-    <div class="recibo-row"><span class="label">Fecha</span><span class="value" id="r-fecha"></span></div>
-    <div class="recibo-row"><span class="label">Empleado</span><span class="value" id="r-empleado"></span></div>
-  </div>
-  <div class="recibo-section">
-    <div class="recibo-section-title">Detalle del pedido</div>
-    <table>
-      <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
-      <tbody id="r-productos"></tbody>
-    </table>
-  </div>
-  <div class="recibo-total">
-    <span class="total-label">Total General</span>
-    <span class="total-amount" id="r-total"></span>
-  </div>
-  <div class="recibo-section" style="margin-top:12px">
-    <div class="recibo-section-title">Notas</div>
-    <div style="font-size:13px;color:#444" id="r-notas"></div>
-  </div>
-  <div class="recibo-footer">
-    www.elhyai.com &nbsp;|&nbsp; Aqua Luan<br>
-    Gracias por su preferencia
-  </div>
-</div>
-
-
-<!-- SUPERVISOR LOGIN -->
-<div class="sup-login-overlay" id="supLoginOverlay">
-  <div class="sup-login-box">
-    <div class="sup-login-title">Panel Supervisor</div>
-    <div class="sup-login-sub">Ingresa la clave para acceder</div>
-    <div class="field">
-      <label>Clave de acceso</label>
-      <input type="password" id="supClave" placeholder="****" onkeydown="if(event.key==='Enter') doSupLogin()">
-    </div>
-    <div class="sup-login-error" id="supLoginError">Clave incorrecta.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
-      <button class="btn btn-outline" onclick="cerrarSupLogin()">Cancelar</button>
-      <button class="btn" onclick="doSupLogin()">Ingresar</button>
-    </div>
-  </div>
-</div>
-
-<!-- SUPERVISOR PANEL -->
-<div class="sup-panel-overlay" id="supPanelOverlay">
-  <div class="sup-panel-container">
-    <div class="sup-header">
-      <div>
-        <div class="sup-title">AQUA <span>LUAN</span> — Supervisor</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px">Gestion de empleados y productos</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <div class="sup-badge" id="supFechaHoy"></div>
-        <button class="btn-cerrar-sup" onclick="cerrarSupPanel()">✕ Salir</button>
-      </div>
-    </div>
-
-    <!-- CARD EMPLEADOS -->
-    <div class="card">
-      <div class="section-title">Gestionar empleados</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Agrega o elimina empleados. Los cambios se reflejan inmediatamente en el formulario principal.</p>
-      <div class="admin-list" id="admin-empleados-list"></div>
-      <div class="add-item-row" style="margin-top:12px">
-        <input type="text" id="nuevo-empleado" placeholder="Nombre del nuevo empleado" onkeydown="if(event.key==='Enter') agregarEmpleado()">
-        <button class="btn-add-item" onclick="agregarEmpleado()">+ Agregar</button>
-      </div>
-    </div>
-
-    <!-- CARD PRODUCTOS -->
-    <div class="card">
-      <div class="section-title">Gestionar productos</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Agrega o elimina productos. Los cambios se reflejan inmediatamente en el formulario principal.</p>
-      <div class="admin-list" id="admin-productos-list"></div>
-      <div class="add-item-row" style="margin-top:12px">
-        <input type="text" id="nuevo-producto" placeholder="Nombre del nuevo producto" onkeydown="if(event.key==='Enter') agregarProductoAdmin()">
-        <button class="btn-add-item" onclick="agregarProductoAdmin()">+ Agregar</button>
-      </div>
-    </div>
-
-    <!-- BOTON GUARDAR Y SALIR -->
-    <div class="card" style="text-align:center">
-      <button class="btn" onclick="guardarYSalir()" style="background:var(--navy)">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 10v2a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 12v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 2v7M5.5 6.5 8 9l2.5-2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Guardar cambios y salir
-      </button>
-      <p style="font-size:12px;color:var(--muted);margin-top:10px">Los cambios ya se guardaron automaticamente. Este boton cierra el panel.</p>
-    </div>
-
-    <div class="footer"><a href="https://www.elhyai.com" target="_blank">www.elhyai.com &nbsp;|&nbsp; Aqua Luan</a></div>
-  </div>
-</div>
-
-<!-- MODAL SUPERVISOR -->
-<div class="modal-overlay" id="supModalOverlay">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Confirmar pedido</div>
-    <div class="modal-subtitle">Revisa los datos antes de guardar</div>
-    <table class="modal-table">
-      <tr><td>Empleado</td><td id="sup-m-empleado">-</td></tr>
-      <tr><td>Cliente</td><td id="sup-m-nombre">-</td></tr>
-      <tr><td>Telefono</td><td id="sup-m-telefono">-</td></tr>
-      <tr><td>Direccion</td><td id="sup-m-direccion">-</td></tr>
-      <tr><td>Fecha</td><td id="sup-m-fecha">-</td></tr>
-      <tr><td>Notas</td><td id="sup-m-notas">-</td></tr>
-    </table>
-    <div class="section-title" style="margin-bottom:0.75rem">Productos</div>
-    <table class="modal-productos">
-      <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr></thead>
-      <tbody id="sup-m-productos"></tbody>
-    </table>
-    <div class="modal-total-final">
-      <span>Total general</span>
-      <span id="sup-m-total">$0.00</span>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-outline" onclick="supCerrarModal()">Cancelar</button>
-      <button class="btn" id="supBtnConfirmar" onclick="supConfirmarEnvio()">
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Confirmar y guardar
-      </button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
